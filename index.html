@@ -937,6 +937,8 @@ function footerHTML(){
 /* ============================ RENDER ============================ */
 function render(){
   const app = $("#app");
+  const foot = $("#footer");
+  if(!foot.innerHTML) foot.innerHTML = footerHTML(); // populate once; content is static
   let html = "";
   if(state.screen==="home") html = homeHTML();
   else if(state.screen==="shop") html = shopHTML();
