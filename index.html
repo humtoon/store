@@ -231,8 +231,14 @@ section{padding:26px 22px}
 .duo-imgs img{aspect-ratio:4/5;object-fit:cover;width:100%}
 .duo-imgs figcaption{position:absolute;left:8px;bottom:8px;background:#fff;font-weight:700;font-size:12px;padding:5px 10px;border-radius:var(--r-pill);box-shadow:var(--shadow)}
 
-/* REVEAL ROW */
-.reveal-card{scroll-snap-align:start;flex:0 0 230px;background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:12px;box-shadow:var(--shadow)}
+/* REVEAL ROW — horizontal scroll driven by vertical page scroll (no left/right sliding) */
+.hpin{position:relative}
+.hpin-stage{position:sticky;top:0;overflow:hidden;margin:0 -22px;touch-action:pan-y}
+.hpin-track{display:flex;gap:16px;padding:10px 38% 26px;width:max-content;will-change:transform}
+.hpin-prog{position:absolute;left:22px;right:22px;bottom:8px;height:4px;border-radius:999px;background:var(--line);overflow:hidden}
+.hpin-prog i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--lav),#9b7bff)}
+.reveal-card{flex:0 0 230px;background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:12px;box-shadow:var(--shadow);transform-origin:center center;will-change:transform,opacity;transition:box-shadow .3s var(--ease)}
+.reveal-card.is-active{box-shadow:var(--shadow-lg);border-color:var(--lav-chip)}
 .reveal-imgs{display:flex;align-items:center;gap:8px}
 .reveal-imgs .b{flex:0 0 64px;height:80px;border-radius:12px;object-fit:cover;filter:saturate(.9)}
 .reveal-imgs .arrow{color:var(--lav);font-size:20px;font-weight:700}
@@ -304,6 +310,15 @@ section{padding:26px 22px}
 .buybar .ig{flex:0 0 48px;width:48px;height:48px;border-radius:13px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:20px}
 
 /* ============================ GUIDE & FAQ ============================ */
+.shots{background:var(--lav-chip);border-radius:var(--r-card);padding:18px;margin-top:18px}
+.shots h3{font-family:"Quicksand";font-weight:700;font-size:16px;margin-bottom:6px}
+.shots .lead{font-size:14px;color:var(--lav-dark);margin-bottom:12px}
+.shots ol{list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:11px}
+.shots li{position:relative;padding-left:36px;font-size:14px;color:var(--ink);line-height:1.5}
+.shots li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:-1px;width:25px;height:25px;border-radius:50%;background:var(--lav);color:#fff;font-family:"Quicksand";font-weight:700;font-size:13px;display:grid;place-items:center}
+.shots li b{font-weight:800}
+.shots .angles{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.shots .angles span{background:#fff;border:1px solid var(--line);color:var(--lav-dark);font-family:"Quicksand";font-weight:700;font-size:11.5px;padding:4px 10px;border-radius:var(--r-pill)}
 .tip-card{display:flex;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
 .tip-card .ic{font-size:26px;flex:0 0 auto}
 .tip-card h3{font-family:"Quicksand";font-weight:700;font-size:16px}
@@ -434,7 +449,7 @@ const REVIEWS = [
   {img:"duo-bundle-brownsage-combo.jpeg", name:"Dhruv & Harshita", role:"Duo Bundle", q:"The lilttle intricate details in our outfits are perfect. We love it!"},
 ];
 
-const CATS = [["all","All"],["solo","Solo"],["couple","Couples"],["family","Family"],["pet","Pets"],["baby","Babies"]];
+const CATS = [["all","All"],["baby","Babies"],["couple","Couple"],["family","Group"],["solo","Solo"],["pet","Pets"]];
 
 
 const FAQS = [
@@ -553,6 +568,48 @@ function initReveal(root){
   });
 }
 
+// "The reveal" gallery: vertical page scroll drives the horizontal track.
+// The user never slides left/right — the section pins while scrolling down.
+let _hpinCleanup = null;
+function initRevealScroll(root){
+  if(_hpinCleanup){ _hpinCleanup(); _hpinCleanup = null; }
+  const pin = $("[data-hpin]", root);
+  if(!pin) return;
+  const stage = $(".hpin-stage", pin), track = $(".hpin-track", pin);
+
+  if(reducedMotion()){             // accessible fallback: plain horizontal scroller
+    stage.style.overflowX = "auto";
+    stage.style.webkitOverflowScrolling = "touch";
+    pin.style.height = "auto";
+    return;
+  }
+
+  let maxShift = 0, pinTop = 0, top = 0, raf = 0;
+  function measure(){
+    const stageH = stage.offsetHeight;
+    top = Math.max(12, (window.innerHeight - stageH) / 2); // center the pinned stage
+    stage.style.top = top + "px";
+    maxShift = Math.max(0, track.scrollWidth - stage.clientWidth);
+    pin.style.height = (stageH + maxShift) + "px"; // 1px down = 1px across
+    pinTop = pin.getBoundingClientRect().top + window.scrollY;
+    update();
+  }
+  function update(){
+    if(maxShift <= 0){ track.style.transform = "none"; return; }
+    let p = (window.scrollY - (pinTop - top)) / maxShift;
+    p = p < 0 ? 0 : p > 1 ? 1 : p;
+    track.style.transform = `translate3d(${-(p * maxShift).toFixed(2)}px,0,0)`;
+  }
+  const onScroll = ()=>{ if(raf) return; raf = requestAnimationFrame(()=>{ raf = 0; update(); }); };
+  const onResize = ()=> measure();
+  window.addEventListener("scroll", onScroll, {passive:true});
+  window.addEventListener("resize", onResize);
+  _hpinCleanup = ()=>{ window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onResize); };
+  $$("img", track).forEach(im=>{ if(!im.complete) im.addEventListener("load", measure, {once:true}); });
+  measure();
+  setTimeout(measure, 700); // re-measure once the section's reveal animation settles
+}
+
 function productCard(p){
   return `<div class="card" data-product="${p.id}">
     <div class="ph">
@@ -602,7 +659,7 @@ function homeHTML(){
       <div class="dark-panel">
         <span class="eyebrow-sm">How it works</span>
         <h2 class="q" style="margin-top:8px">Three easy steps</h2>
-        <div class="step"><div class="num q">1</div><div><h3 class="q">Send us your photo</h3><p>Solo, couple, family, baby or pet — one clear, well-lit shot over WhatsApp.</p></div></div>
+        <div class="step"><div class="num q">1</div><div><h3 class="q">Send us your photos</h3><p>A clear full shot, plus head shots from a few angles for each person — over WhatsApp.</p></div></div>
         <div class="step"><div class="num q">2</div><div><h3 class="q">Our artists toonify it</h3><p>We hand-draw your one-of-a-kind 2D toon with care.</p></div></div>
         <div class="step"><div class="num q">3</div><div><h3 class="q">We print &amp; ship</h3><p>Printed on premium acrylic and delivered to your door.</p></div></div>
       </div>
@@ -618,18 +675,22 @@ function homeHTML(){
       </div>
     </section>
 
-    <section>
+    <section class="reveal-sec">
       <div class="sec-head"><h2 class="q">The reveal</h2></div>
-      <p style="color:var(--muted);font-size:14.5px;margin:-8px 0 14px">Real photos → real toons.</p>
-      <div class="scroller no-scrollbar">${TRANSFORMS.map(t=>`
-        <div class="reveal-card">
-          <div class="reveal-imgs">
-            <img class="b" src="${IMG(t.b)}" alt="before" loading="lazy">
-            <span class="arrow">→</span>
-            <img class="a" src="${IMG(t.a)}" alt="after" loading="lazy">
-          </div>
-          <div class="rl q">${esc(t.l)}</div>
-        </div>`).join("")}</div>
+      <p style="color:var(--muted);font-size:14.5px;margin:-8px 0 14px">Real photos → real toons. <span style="color:var(--faint)">scroll to play ↓</span></p>
+      <div class="hpin" data-hpin>
+        <div class="hpin-stage">
+          <div class="hpin-track">${TRANSFORMS.map(t=>`
+            <div class="reveal-card">
+              <div class="reveal-imgs">
+                <img class="b" src="${IMG(t.b)}" alt="before" loading="lazy">
+                <span class="arrow">→</span>
+                <img class="a" src="${IMG(t.a)}" alt="after" loading="lazy">
+              </div>
+              <div class="rl q">${esc(t.l)}</div>
+            </div>`).join("")}</div>
+        </div>
+      </div>
     </section>
 
     <section class="reviews-sec">
@@ -736,9 +797,20 @@ function guideHTML(){
   const good = ["solo-graduation-original.jpeg","family-temple-original.jpeg","paw-golden-original.jpeg"];
   return `<div class="screen screen-pad">
     <span class="eyebrow-sm">Get it right</span>
-    <h1 class="q" style="margin-top:8px">How to choose the right photo</h1>
-    <p class="sh-sub">A great toon starts with a great photo — here's how to nail it.</p>
-    <div style="margin-top:20px">${tips.map(([i,t,d])=>`
+    <h1 class="q" style="margin-top:8px">How to choose the right photos</h1>
+    <p class="sh-sub">A great toon starts with great photos — one shot isn't enough.</p>
+    <div class="shots">
+      <h3 class="q">📸 What to send us</h3>
+      <p class="lead">For the most detailed, true-to-life toon, please share <b>both</b>:</p>
+      <ol>
+        <li><b>The full main shot</b> — the complete photo, pose or scene you want toonified.</li>
+        <li><b>Head shots from a few angles</b> — for <b>each person</b> in the main shot, so we capture every feature:
+          <div class="angles"><span>Straight-on</span><span>Side profile</span><span>3/4 / cross</span></div>
+        </li>
+      </ol>
+    </div>
+    <h3 class="q" style="font-size:17px;margin:22px 0 4px">Tips for every shot 👇</h3>
+    <div style="margin-top:12px">${tips.map(([i,t,d])=>`
       <div class="tip-card"><div class="ic">${i}</div><div><h3 class="q">${t}</h3><p>${d}</p></div></div>`).join("")}</div>
     <h3 class="q" style="font-size:17px;margin:8px 0 4px">Photos that work great 👇</h3>
     <div class="good-imgs">${good.map(g=>`<figure><img src="${IMG(g)}" alt="" loading="lazy"><span class="ck">✓</span></figure>`).join("")}</div>
@@ -800,6 +872,7 @@ function render(){
 
   initSliders(app);
   initReveal(app);
+  initRevealScroll(app);
   if(state.screen==="product") wireProduct();
   $("#footer").style.display = state.screen==="product" ? "none" : "block"; // sticky bar owns product bottom
   window.scrollTo({top:0,behavior:"instant"});
