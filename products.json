@@ -1,0 +1,216 @@
+{
+  "brand": {
+    "name": "Humtoon",
+    "concept": "Send a photo (solo, couple, baby, pet or group) and we turn it into an animated/toonified acrylic standee or fridge magnet.",
+    "logo": "images/logo.png"
+  },
+  "_legend": {
+    "image.type": {
+      "original": "The raw client photo (the 'before').",
+      "humtoon": "The finished toonified product, shown on its own (the 'after').",
+      "combo": "The finished product photographed together with the printed original / held by the customer (before + after in one frame).",
+      "customer": "The finished product held by or shown with the customer."
+    },
+    "image.form_factor": ["acrylic_standee", "fridge_magnet", null],
+    "note": "'from' records the original WhatsApp filename so renames are fully reversible.",
+    "prices": "P1..P4 are placeholders carried over from the brief; replace with real amounts. 'Lil Toon' price was not provided yet."
+  },
+  "products": [
+    {
+      "id": "solo",
+      "name": "The Solo Humtoon",
+      "tagline": "Capture your vibe.",
+      "description": "Client sends a single photo and gets one humtoon of that person.",
+      "people": "1",
+      "price": "P1",
+      "samples": [
+        {
+          "id": "solo-businessman",
+          "subject": "Man in a blue blazer and white shirt",
+          "images": [
+            { "file": "images/solo-businessman-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.54.34 (2).jpeg" },
+            { "file": "images/solo-businessman-humtoon.jpeg", "type": "humtoon", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.54.34 (1).jpeg" }
+          ]
+        },
+        {
+          "id": "solo-graduation",
+          "subject": "Woman in graduation cap, stole and cream saree",
+          "images": [
+            { "file": "images/solo-graduation-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.54.33.jpeg" },
+            { "file": "images/solo-graduation-humtoon.jpeg", "type": "humtoon", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.54.34 (5).jpeg" }
+          ]
+        },
+        {
+          "id": "solo-bluegown",
+          "subject": "Woman in a light-blue evening gown",
+          "images": [
+            { "file": "images/solo-bluegown-humtoon.jpeg", "type": "humtoon", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.54.34 (4).jpeg" },
+            { "file": "images/solo-bluegown-customer.jpeg", "type": "customer", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.54.34.jpeg" }
+          ]
+        },
+        {
+          "id": "solo-yellowsaree",
+          "subject": "Woman in a yellow floral saree",
+          "images": [
+            { "file": "images/solo-yellowsaree-combo.jpeg", "type": "combo", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.54.34 (3).jpeg" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "duo_bundle",
+      "name": "The Duo Bundle",
+      "tagline": "Perfect for couples or besties.",
+      "description": "Client gets two separate humtoons, one for each person.",
+      "people": "2",
+      "price": "P2",
+      "samples": [
+        {
+          "id": "duo-bundle-cream",
+          "subject": "Couple: black sherwani + cream lehenga (two separate standees)",
+          "images": [
+            { "file": "images/duo-bundle-cream-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.59.34.jpeg" },
+            { "file": "images/duo-bundle-cream-humtoon.jpeg", "type": "humtoon", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.59.34 (1).jpeg" }
+          ]
+        },
+        {
+          "id": "duo-bundle-brooklyn",
+          "subject": "Couple on Brooklyn Bridge: purple dress + black jacket (two separate standees)",
+          "images": [
+            { "file": "images/duo-bundle-brooklyn-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.59.33 (1).jpeg" },
+            { "file": "images/duo-bundle-brooklyn-combo.jpeg", "type": "combo", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.59.34 (2).jpeg" }
+          ]
+        },
+        {
+          "id": "duo-bundle-brownsage",
+          "subject": "Couple: brown outfit + sage kurta (offered as both standees and magnets)",
+          "images": [
+            { "file": "images/duo-bundle-brownsage-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.59.33.jpeg" },
+            { "file": "images/duo-bundle-brownsage-combo.jpeg", "type": "combo", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.59.34 (3).jpeg" },
+            { "file": "images/duo-bundle-brownsage-humtoon-magnet.jpeg", "type": "humtoon", "form_factor": "fridge_magnet", "from": "WhatsApp Image 2026-06-13 at 15.59.34 (4).jpeg" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "family_squad",
+      "name": "The Family / Squad Pack",
+      "tagline": "Bring the whole fam to your desk.",
+      "description": "A single combined humtoon for the whole group.",
+      "people": "4+",
+      "price": "P3 base for 4 people, +100 per extra person above 4",
+      "samples": [
+        {
+          "id": "family-temple",
+          "subject": "Family of five in front of a temple",
+          "images": [
+            { "file": "images/family-temple-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 16.02.04.jpeg" },
+            { "file": "images/family-temple-humtoon.jpeg", "type": "humtoon", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 16.02.04 (2).jpeg" }
+          ]
+        },
+        {
+          "id": "squad-boys",
+          "subject": "Group of six friends on a rooftop",
+          "images": [
+            { "file": "images/squad-boys-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 16.02.04 (1).jpeg" },
+            { "file": "images/squad-boys-humtoon.jpeg", "type": "humtoon", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 16.02.04 (3).jpeg" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paw",
+      "name": "The Paw Toon",
+      "tagline": "For your furriest family member.",
+      "description": "Client sends a pet photo and gets a single humtoon of the pet.",
+      "people": "1 pet",
+      "price": "P3",
+      "samples": [
+        {
+          "id": "paw-golden",
+          "subject": "Golden retriever puppy with an orange collar",
+          "images": [
+            { "file": "images/paw-golden-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 16.02.43 (1).jpeg" },
+            { "file": "images/paw-golden-combo.jpeg", "type": "combo", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 16.02.43.jpeg" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "duo_attached",
+      "name": "The Attached Duo",
+      "tagline": "Better together.",
+      "description": "Client gets a single humtoon with both people attached together in one piece.",
+      "people": "2",
+      "price": "P4",
+      "samples": [
+        {
+          "id": "duo-attached-black",
+          "subject": "Couple in black formal Indian wear",
+          "images": [
+            { "file": "images/duo-attached-black-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.58.24.jpeg" },
+            { "file": "images/duo-attached-black-humtoon.jpeg", "type": "humtoon", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.58.24 (4).jpeg" }
+          ]
+        },
+        {
+          "id": "duo-attached-mauve",
+          "subject": "Couple: mauve lehenga + cream blazer",
+          "images": [
+            { "file": "images/duo-attached-mauve-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.58.24 (1).jpeg" },
+            { "file": "images/duo-attached-mauve-combo.jpeg", "type": "combo", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.58.24 (5).jpeg" }
+          ]
+        },
+        {
+          "id": "duo-attached-pink",
+          "subject": "Couple: pink lehenga + black sherwani",
+          "images": [
+            { "file": "images/duo-attached-pink-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.58.24 (6).jpeg" },
+            { "file": "images/duo-attached-pink-combo.jpeg", "type": "combo", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.58.24 (3).jpeg" }
+          ]
+        },
+        {
+          "id": "duo-attached-teal",
+          "subject": "Couple: navy pinstripe suit + teal lehenga",
+          "images": [
+            { "file": "images/duo-attached-teal-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.58.24 (2).jpeg" },
+            { "file": "images/duo-attached-teal-humtoon.jpeg", "type": "humtoon", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.58.24 (7).jpeg" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lil",
+      "name": "The Lil Toon",
+      "tagline": "Toonify your lil baby forever.",
+      "description": "Client sends a baby photo and gets a single humtoon, available as a standee or a named fridge magnet.",
+      "people": "1 baby",
+      "price": "TBD",
+      "samples": [
+        {
+          "id": "lil-swara",
+          "subject": "Baby 'Swara' in a pink wrap and night-cap",
+          "images": [
+            { "file": "images/lil-swara-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.55.12.jpeg" },
+            { "file": "images/lil-swara-humtoon.jpeg", "type": "humtoon", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.55.13 (2).jpeg" }
+          ]
+        },
+        {
+          "id": "lil-pinak",
+          "subject": "Baby 'Pinak' in a yellow outfit on a couch",
+          "images": [
+            { "file": "images/lil-pinak-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.55.13 (3).jpeg" },
+            { "file": "images/lil-pinak-humtoon.jpeg", "type": "humtoon", "form_factor": "acrylic_standee", "from": "WhatsApp Image 2026-06-13 at 15.55.12 (1).jpeg" }
+          ]
+        },
+        {
+          "id": "lil-sweetworld",
+          "subject": "Baby in a blue wrap with flower headband ('Our little sweet world')",
+          "images": [
+            { "file": "images/lil-sweetworld-original.jpeg", "type": "original", "form_factor": null, "from": "WhatsApp Image 2026-06-13 at 15.55.13 (1).jpeg" },
+            { "file": "images/lil-sweetworld-humtoon-magnet.jpeg", "type": "humtoon", "form_factor": "fridge_magnet", "from": "WhatsApp Image 2026-06-13 at 15.55.13.jpeg" }
+          ]
+        }
+      ]
+    }
+  ]
+}
