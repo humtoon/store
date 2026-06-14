@@ -530,7 +530,8 @@ async function loadPrices(){
     (data.products||[]).forEach(pj=>{
       const p = PRODUCTS.find(x=>x.id===pj.id);
       if(!p || !pj.price) return;
-      const num = parseInt(String(pj.price).replace(/[^\d]/g,""), 10);
+      const nm = String(pj.price).match(/\d[\d,]*/);
+      const num = nm ? parseInt(nm[0].replace(/,/g,""), 10) : NaN;
       if(!isNaN(num)) p.priceNum = num;
       const formatted = fmtPrice(pj.price, pj.id);
       if(formatted !== p.price){ p.price = formatted; changed = true; }
