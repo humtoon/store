@@ -12,10 +12,12 @@ A static product website for **Humtoon** — custom toonified acrylic standees a
 |------|-------|
 | Product images (renamed, organized) | ✅ Done — [images/](images/) |
 | Product/sample metadata | ✅ Done — [products.json](products.json) |
-| Website (HTML/CSS/JS) | ⏳ Not built yet |
+| Website (HTML/CSS/JS) | ✅ Done — [index.html](index.html) (single self-contained file) |
 | GitHub Pages deploy | ⏳ Not set up yet |
 
-The site is intended to be a **plain static site** (no backend, no build step) hosted free on **GitHub Pages**. All product content is driven by [products.json](products.json) — adding a product or changing a price should only mean editing that file, never the markup.
+The site is a **plain static site** (no backend, no build step) hosted free on **GitHub Pages**. The entire storefront — a `home / shop / product / guide / faq` screen state machine, an interactive before/after drag slider, WhatsApp ordering, photo-upload preview, and the full conversion/persuasion layer — lives in one `index.html` (embedded CSS + vanilla JS), so it works on GitHub Pages with zero build and no `fetch`.
+
+> **Note on product data:** the live storefront's product copy/images are defined in the `PRODUCTS` array inside [index.html](index.html), shaped one-row-per-product (`before`/`after`/`gallery`) for the slider and cards. [products.json](products.json) remains the canonical archive of every sample + original WhatsApp filenames. Keep prices in sync between the two when the `₹XXX` placeholders are replaced with real amounts.
 
 ---
 

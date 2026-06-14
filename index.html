@@ -1,93 +1,943 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Humtoon — Toonify your favourite people</title>
-  <meta name="description" content="Custom toonified acrylic standees and fridge magnets made from your photos. Solo, couples, family, squad, babies and pets." />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Humtoon — Turn your favourite memories into everyday art</title>
+<meta name="description" content="Highly detailed 2D custom toons from your photos — printed on premium acrylic standees & fridge magnets. Preview before you pay. Pan-India shipping." />
+<meta name="theme-color" content="#7a5af0" />
+<meta property="og:title" content="Humtoon — your face belongs on a shelf" />
+<meta property="og:description" content="Send a photo, get a hand-drawn toon on an acrylic standee or fridge magnet. Free preview before you pay." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="images/solo-businessman-humtoon.jpeg" />
 
-  <!-- Open Graph / social preview -->
-  <meta property="og:title" content="Humtoon" />
-  <meta property="og:description" content="Send a photo, get a toonified acrylic standee or fridge magnet." />
-  <meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Newsreader:ital,wght@1,400;1,500&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --ink: #1f2330;
-      --muted: #6b7280;
-      --accent: #8b7cf6;
-      --bg: #ffffff;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { -webkit-text-size-adjust: 100%; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: var(--ink);
-      background: var(--bg);
-      line-height: 1.5;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    header, main, footer { width: 100%; max-width: 960px; margin: 0 auto; padding: 0 24px; }
-    header { padding-top: 32px; }
-    .logo { height: 56px; width: auto; display: block; }
+<style>
+/* ============================ TOKENS ============================ */
+:root{
+  --page:#e7e3f0;
+  --app:#fcfbfe;
+  --white:#ffffff;
+  --tint:#f6f3fb;
+  --ink:#1c1a24;
+  --muted:#6c6878;
+  --faint:#9b97a8;
+  --line:#efecf5;
+  --lav:#7a5af0;
+  --lav-dark:#6741e6;
+  --lav-chip:#f1ecff;
+  --yellow:#ffce3a;
+  --yellow-soft:#fff4cf;
+  --green:#3fb27f;
+  --star:#ffb400;
+  --shadow:0 8px 22px -16px rgba(40,20,80,.45);
+  --shadow-lg:0 18px 44px -22px rgba(40,20,80,.55);
+  --r-card:20px; --r-media:24px; --r-btn:14px; --r-pill:999px;
+  --max:440px;
+  --ease:cubic-bezier(.22,.68,.26,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:"Nunito Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:var(--page);
+  line-height:1.5;
+  font-weight:400;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  scroll-behavior:smooth;
+  overscroll-behavior-y:none;
+}
+:focus-visible{outline:2.5px solid var(--lav);outline-offset:2px;border-radius:6px}
+:focus:not(:focus-visible){outline:none}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit;text-decoration:none}
+.q{font-family:"Quicksand",sans-serif}
+.ed{font-family:"Newsreader",serif;font-style:italic}
+.no-scrollbar::-webkit-scrollbar{display:none}
+.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
 
-    .hero {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      gap: 16px;
-      padding: 64px 24px;
-    }
-    .hero h1 { font-size: clamp(2rem, 6vw, 3.5rem); letter-spacing: -0.02em; }
-    .hero p { color: var(--muted); font-size: clamp(1rem, 2.5vw, 1.25rem); max-width: 38ch; }
-    .accent { color: var(--accent); }
+/* ============================ APP SHELL ============================ */
+#shell{
+  max-width:var(--max);
+  margin:0 auto;
+  min-height:100vh;
+  background:var(--app);
+  box-shadow:0 0 60px -10px rgba(40,20,80,.28);
+  position:relative;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+header.bar{
+  position:sticky;top:0;z-index:40;
+  height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 14px;
+  background:rgba(252,251,254,.82);
+  backdrop-filter:saturate(180%) blur(12px);
+  -webkit-backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.bar-btn{
+  width:40px;height:40px;border-radius:var(--r-pill);
+  display:grid;place-items:center;font-size:20px;color:var(--ink);
+  transition:background .18s, transform .12s;
+}
+.bar-btn:active{transform:scale(.9)}
+.bar-btn.wa{background:var(--lav);color:#fff;font-size:18px;box-shadow:var(--shadow)}
+.bar-btn.wa:hover{background:var(--lav-dark)}
+.wordmark{font-size:23px;font-weight:700;letter-spacing:-.5px;cursor:pointer}
+.wordmark .oo{color:var(--lav)}
 
-    .badge {
-      display: inline-block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--accent);
-      background: rgba(139, 124, 246, 0.12);
-      padding: 6px 12px;
-      border-radius: 999px;
-    }
+main{flex:1;display:block}
+.screen{animation:fade .4s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.85rem;
-      padding: 24px;
-    }
-  </style>
+/* ============================ DRAWER ============================ */
+#backdrop{
+  position:fixed;inset:0;z-index:50;background:rgba(28,26,36,.5);
+  backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:opacity .28s;
+}
+#backdrop.open{opacity:1;visibility:visible}
+#drawer{
+  position:fixed;top:0;bottom:0;left:0;z-index:51;width:80%;max-width:320px;
+  background:var(--app);transform:translateX(-105%);transition:transform .3s cubic-bezier(.3,.9,.3,1);
+  display:flex;flex-direction:column;padding:22px;box-shadow:var(--shadow-lg);
+}
+#drawer.open{transform:none}
+#drawer .dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+#drawer nav{display:flex;flex-direction:column;margin-top:18px}
+#drawer nav a{padding:15px 6px;font-size:19px;font-weight:600;border-bottom:1px solid var(--line);transition:color .15s,padding-left .15s}
+#drawer nav a:hover{color:var(--lav);padding-left:12px}
+.drawer-foot{margin-top:auto;display:flex;gap:10px}
+.drawer-foot a{flex:1;text-align:center;padding:13px;border-radius:var(--r-btn);font-weight:700;font-size:14px}
+.df-ig{background:var(--ink);color:#fff}
+.df-wa{background:var(--lav);color:#fff}
+
+/* ============================ BUTTONS ============================ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  font-family:"Quicksand";font-weight:700;font-size:16px;
+  padding:14px 20px;border-radius:var(--r-btn);transition:transform .12s,background .18s,box-shadow .18s;
+}
+.btn:active{transform:scale(.96)}
+.btn-pri{position:relative;overflow:hidden;background:linear-gradient(135deg,#8264ff,#6741e6);color:#fff;box-shadow:0 12px 26px -12px rgba(122,90,240,.85),inset 0 1px 0 rgba(255,255,255,.22)}
+.btn-pri:hover{background:linear-gradient(135deg,#7351f5,#5b37db)}
+.btn-pri::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg);transition:left .6s var(--ease)}
+.btn-pri:hover::after{left:140%}
+.btn-out{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.btn-out:hover{border-color:var(--lav);color:var(--lav)}
+.btn-white{background:#fff;color:var(--lav)}
+.btn-block{width:100%}
+
+/* ============================ HERO ============================ */
+.hero{background:linear-gradient(180deg,#f6f3fb,#fcfbfe);padding:26px 22px 30px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-120px;right:-90px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(122,90,240,.22),transparent 70%);filter:blur(8px);pointer-events:none;z-index:0}
+.hero::after{content:"";position:absolute;bottom:-60px;left:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(255,206,58,.18),transparent 70%);pointer-events:none;z-index:0}
+.hero>*{position:relative;z-index:1}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:7px;background:#fff;color:var(--lav);
+  font-weight:800;font-size:12.5px;padding:7px 13px;border-radius:var(--r-pill);
+  box-shadow:var(--shadow);border:1px solid var(--line);
+}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(63,178,127,.18);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 3px rgba(63,178,127,.18)}50%{box-shadow:0 0 0 6px rgba(63,178,127,.05)}}
+.hero h1{font-family:"Quicksand";font-weight:700;font-size:34px;line-height:1.12;letter-spacing:-.5px;margin:16px 0 10px;text-wrap:balance}
+.hero h1 .lav{color:var(--lav)}
+.hero .sub{font-family:"Newsreader";font-style:italic;font-size:17px;color:var(--muted);margin-bottom:18px}
+.hero-btns{display:flex;gap:10px;margin-top:18px}
+.hero-btns .btn{flex:1}
+.scarcity{
+  display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;
+  font-size:12.5px;font-weight:700;color:var(--lav-dark);background:var(--lav-chip);
+  padding:9px;border-radius:var(--r-pill);
+}
+
+/* ============================ BEFORE/AFTER SLIDER ============================ */
+.ba-wrap{margin-top:4px}
+.ba{
+  position:relative;width:100%;aspect-ratio:4/5;border-radius:var(--r-media);overflow:hidden;
+  box-shadow:var(--shadow-lg);touch-action:none;user-select:none;-webkit-user-select:none;cursor:ew-resize;
+  background:var(--tint);
+}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.ba .ba-top{z-index:2}
+.ba .ba-divider{position:absolute;top:0;bottom:0;width:3px;background:#fff;left:50%;transform:translateX(-50%);z-index:3;box-shadow:0 0 12px rgba(0,0,0,.25)}
+.ba .ba-knob{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:4;
+  width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;
+  font-size:16px;color:var(--lav);box-shadow:0 4px 14px rgba(0,0,0,.28),0 0 0 5px rgba(255,255,255,.35);
+  cursor:grab;
+}
+.ba:active .ba-knob{cursor:grabbing;transform:translate(-50%,-50%) scale(1.08)}
+.ba.hinting .ba-top,.ba.hinting .ba-divider,.ba.hinting .ba-knob{transition:clip-path .55s var(--ease),left .55s var(--ease)}
+.ba .lbl{position:absolute;top:12px;z-index:5;font-family:"Quicksand";font-weight:700;font-size:11px;letter-spacing:.5px;padding:5px 11px;border-radius:var(--r-pill)}
+.ba .lbl-b{left:12px;background:var(--ink);color:#fff}
+.ba .lbl-a{right:12px;background:var(--lav);color:#fff}
+.ba-cap{text-align:center;color:var(--faint);font-size:13px;margin-top:10px}
+
+/* ============================ SECTIONS ============================ */
+section{padding:26px 22px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px}
+.sec-head h2{font-family:"Quicksand";font-weight:700;font-size:22px;letter-spacing:-.3px}
+.sec-head a{color:var(--lav);font-weight:700;font-size:14px}
+.eyebrow-sm{font-family:"Quicksand";font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--lav)}
+
+/* MARQUEE */
+.marquee{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:13px 0}
+.marquee-track{display:flex;gap:0;width:max-content;animation:scroll 22s linear infinite}
+.marquee-track span{padding:0 22px;font-weight:700;font-size:14px;white-space:nowrap;color:var(--ink)}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* PRODUCT SCROLLER + CARDS */
+.scroller{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 22px 8px;margin:0 -22px}
+.scroller .card{scroll-snap-align:start;flex:0 0 162px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s;cursor:pointer;position:relative}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.card .ph{position:relative;aspect-ratio:1/1;overflow:hidden;background:var(--tint)}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.card:hover .ph img{transform:scale(1.05)}
+.people-pill{position:absolute;left:8px;top:8px;background:rgba(28,26,36,.72);color:#fff;font-size:11px;font-weight:700;padding:4px 9px;border-radius:var(--r-pill);backdrop-filter:blur(4px)}
+.hot-pill{position:absolute;right:8px;top:8px;background:var(--yellow);color:var(--ink);font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:var(--r-pill)}
+.card .body{padding:11px 12px 13px}
+.card .nm{font-family:"Quicksand";font-weight:700;font-size:15px;line-height:1.2}
+.card .tg{font-family:"Newsreader";font-style:italic;font-size:13px;color:var(--muted);margin:3px 0 9px;min-height:18px}
+.card .row{display:flex;align-items:center;justify-content:space-between}
+.card .price{font-family:"Quicksand";font-weight:700;font-size:15px}
+.plus{width:30px;height:30px;border-radius:50%;background:var(--lav);color:#fff;display:grid;place-items:center;font-size:18px;font-weight:700;transition:transform .12s}
+.card:hover .plus{transform:rotate(90deg)}
+
+/* HOW IT WORKS */
+.dark-panel{background:var(--ink);color:#fff;border-radius:var(--r-card);padding:24px 22px}
+.dark-panel .eyebrow-sm{color:var(--yellow)}
+.dark-panel h2{color:#fff}
+.step{display:flex;gap:14px;align-items:flex-start;margin-top:18px}
+.step .num{flex:0 0 34px;height:34px;border-radius:50%;background:var(--lav);color:#fff;display:grid;place-items:center;font-family:"Quicksand";font-weight:700;font-size:16px}
+.step h3{font-family:"Quicksand";font-weight:700;font-size:16px;margin-bottom:2px}
+.step p{font-size:14px;color:#c8c4d4}
+
+/* 2-IN-1 */
+.pill-yellow{display:inline-flex;align-items:center;gap:6px;background:var(--yellow-soft);color:#7a5a00;font-weight:800;font-size:12.5px;padding:7px 13px;border-radius:var(--r-pill)}
+.duo-imgs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.duo-imgs figure{border-radius:var(--r-card);overflow:hidden;box-shadow:var(--shadow);position:relative;background:var(--tint)}
+.duo-imgs img{aspect-ratio:4/5;object-fit:cover;width:100%}
+.duo-imgs figcaption{position:absolute;left:8px;bottom:8px;background:#fff;font-weight:700;font-size:12px;padding:5px 10px;border-radius:var(--r-pill);box-shadow:var(--shadow)}
+
+/* REVEAL ROW */
+.reveal-card{scroll-snap-align:start;flex:0 0 230px;background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:12px;box-shadow:var(--shadow)}
+.reveal-imgs{display:flex;align-items:center;gap:8px}
+.reveal-imgs .b{flex:0 0 64px;height:80px;border-radius:12px;object-fit:cover;filter:saturate(.9)}
+.reveal-imgs .arrow{color:var(--lav);font-size:20px;font-weight:700}
+.reveal-imgs .a{flex:1;height:118px;border-radius:14px;object-fit:cover}
+.reveal-card .rl{margin-top:9px;font-family:"Quicksand";font-weight:700;font-size:13.5px;text-align:center}
+
+/* REVIEWS */
+.reviews-sec{background:var(--tint)}
+.review-card{scroll-snap-align:start;flex:0 0 270px;background:#fff;border:1px solid var(--line);border-radius:var(--r-card);overflow:hidden;box-shadow:var(--shadow)}
+.review-card img{aspect-ratio:16/11;object-fit:cover;width:100%}
+.review-card .rb{padding:14px}
+.stars{color:var(--star);font-size:14px;letter-spacing:1px}
+.review-card .qt{font-size:14px;margin:8px 0 12px;color:var(--ink)}
+.review-card .who{font-family:"Quicksand";font-weight:700;font-size:14px}
+.review-card .role{font-size:12.5px;color:var(--faint)}
+
+/* CTA BAND */
+.cta-band{background:linear-gradient(135deg,#7a5af0,#9b7bff);color:#fff;border-radius:var(--r-card);padding:28px 22px;text-align:center;box-shadow:var(--shadow-lg)}
+.cta-band h2{font-family:"Quicksand";font-weight:700;font-size:25px;line-height:1.15;letter-spacing:-.3px}
+.cta-band p{font-size:15px;margin:8px 0 18px;color:#efe9ff}
+
+/* ============================ SHOP ============================ */
+.screen-pad{padding:24px 22px 40px}
+.screen-pad h1{font-family:"Quicksand";font-weight:700;font-size:26px;letter-spacing:-.3px}
+.screen-pad .sh-sub{font-family:"Newsreader";font-style:italic;font-size:16px;color:var(--muted);margin-top:4px}
+.chips{display:flex;gap:9px;overflow-x:auto;margin:18px -22px 18px;padding:2px 22px 6px}
+.chip{flex:0 0 auto;background:#fff;border:1.5px solid #e8e3f4;color:var(--ink);font-weight:700;font-size:13.5px;padding:9px 16px;border-radius:var(--r-pill);transition:.15s;font-family:"Quicksand"}
+.chip.active{background:var(--lav);color:#fff;border-color:var(--lav)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid2 .card{flex:none}
+
+/* ============================ PRODUCT ============================ */
+.prod{padding:18px 22px 130px}
+.gallery-main{position:relative;border-radius:var(--r-media);overflow:hidden;aspect-ratio:4/5;box-shadow:var(--shadow-lg);background:var(--tint)}
+.gallery-main img{width:100%;height:100%;object-fit:cover}
+.gallery-main .badge-pill{position:absolute;left:12px;top:12px;background:var(--yellow);color:var(--ink);font-family:"Quicksand";font-weight:800;font-size:12px;padding:6px 12px;border-radius:var(--r-pill);box-shadow:var(--shadow)}
+.thumbs{display:flex;gap:9px;margin-top:11px;overflow-x:auto;padding-bottom:4px}
+.thumb{flex:0 0 62px;height:62px;border-radius:13px;overflow:hidden;border:2px solid transparent;cursor:pointer;background:var(--tint)}
+.thumb.active{border-color:var(--lav)}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.title-block{display:flex;justify-content:space-between;align-items:flex-start;margin-top:18px;gap:12px}
+.title-block .nm{font-family:"Quicksand";font-weight:700;font-size:23px;line-height:1.1}
+.title-block .tg{font-family:"Newsreader";font-style:italic;font-size:15px;color:var(--lav);margin-top:3px}
+.title-block .pr{font-family:"Quicksand";font-weight:700;font-size:21px;text-align:right;white-space:nowrap}
+.rating-row{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:13px;color:var(--muted)}
+.blurb{font-size:15px;color:var(--muted);margin-top:14px;line-height:1.6}
+.field-label{font-family:"Quicksand";font-weight:700;font-size:15px;margin:22px 0 10px;display:flex;align-items:center;gap:8px}
+.formats{display:flex;gap:9px}
+.fmt{flex:1;position:relative;background:#fff;border:1.5px solid var(--line);border-radius:var(--r-btn);padding:13px 6px;text-align:center;font-family:"Quicksand";font-weight:700;font-size:14px;transition:.15s}
+.fmt.active{background:var(--lav-chip);border-color:var(--lav);color:var(--lav-dark)}
+.fmt .save{position:absolute;top:-9px;right:-6px;background:var(--yellow);color:var(--ink);font-size:10px;font-weight:800;padding:3px 7px;border-radius:var(--r-pill)}
+.stepper{display:flex;align-items:center;gap:16px}
+.stepper button{width:42px;height:42px;border-radius:12px;background:var(--lav-chip);color:var(--lav-dark);font-size:22px;font-weight:700;display:grid;place-items:center}
+.stepper .cnt{font-family:"Quicksand";font-weight:700;font-size:22px;min-width:34px;text-align:center}
+.helper{font-size:13px;color:var(--muted);margin-top:9px}
+.dropzone{border:2px dashed #d9d2ee;border-radius:var(--r-card);padding:26px 16px;text-align:center;color:var(--muted);background:var(--tint);transition:.15s;cursor:pointer}
+.dropzone:hover{border-color:var(--lav);background:var(--lav-chip)}
+.dz-icon{font-size:30px}
+.dz-title{font-family:"Quicksand";font-weight:700;font-size:15px;color:var(--ink);margin-top:6px}
+.uploaded{display:flex;gap:13px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:13px}
+.uploaded img{width:60px;height:60px;border-radius:12px;object-fit:cover;flex:0 0 60px}
+.uploaded .ok{font-family:"Quicksand";font-weight:700;color:var(--green);font-size:14px}
+.uploaded .fn{font-size:12.5px;color:var(--faint);word-break:break-all}
+.uploaded .nt{font-size:12.5px;color:var(--muted);margin-top:3px}
+.uploaded .chg{font-size:13px;font-weight:700;color:var(--lav);margin-top:6px}
+.tip-line{font-size:13px;color:var(--muted);margin-top:10px}
+.tip-line a{color:var(--lav);font-weight:700}
+.trust-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:24px}
+.trust-mini{background:var(--tint);border:1px solid var(--line);border-radius:14px;padding:13px 8px;text-align:center}
+.trust-mini .ic{font-size:20px}
+.trust-mini .tx{font-family:"Quicksand";font-weight:700;font-size:11.5px;margin-top:5px;line-height:1.25}
+.value-note{display:flex;gap:10px;align-items:flex-start;background:var(--lav-chip);border-radius:var(--r-card);padding:14px;margin-top:16px;font-size:13.5px;color:var(--lav-dark);font-weight:600}
+
+/* STICKY BUY BAR */
+.buybar{
+  position:fixed;left:50%;transform:translateX(-50%);bottom:0;z-index:30;
+  width:100%;max-width:var(--max);
+  background:rgba(252,251,254,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--line);padding:11px 14px calc(11px + env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:11px;box-shadow:0 -10px 30px -18px rgba(40,20,80,.5);
+}
+.buybar .pinfo{flex:0 0 auto;line-height:1.15}
+.buybar .pinfo .p{font-family:"Quicksand";font-weight:700;font-size:18px}
+.buybar .pinfo .f{font-size:11.5px;color:var(--muted)}
+.buybar .btn{flex:1;padding:14px 12px;font-size:15px}
+.buybar .ig{flex:0 0 48px;width:48px;height:48px;border-radius:13px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:20px}
+
+/* ============================ GUIDE & FAQ ============================ */
+.tip-card{display:flex;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.tip-card .ic{font-size:26px;flex:0 0 auto}
+.tip-card h3{font-family:"Quicksand";font-weight:700;font-size:16px}
+.tip-card p{font-size:13.5px;color:var(--muted);margin-top:3px}
+.good-imgs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px}
+.good-imgs figure{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:1/1;box-shadow:var(--shadow)}
+.good-imgs img{width:100%;height:100%;object-fit:cover}
+.good-imgs .ck{position:absolute;right:6px;bottom:6px;width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700}
+.faq-item{background:#fff;border:1px solid var(--line);border-radius:var(--r-card);margin-bottom:11px;overflow:hidden;box-shadow:var(--shadow)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px;font-family:"Quicksand";font-weight:700;font-size:15.5px;text-align:left;width:100%}
+.faq-q .pm{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--lav-chip);color:var(--lav);display:grid;place-items:center;font-size:18px;font-weight:700}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:14px;color:var(--muted)}
+.faq-a .inner{padding:0 16px 16px}
+.faq-item.open .faq-a{max-height:240px}
+.contact-card{background:var(--lav-chip);border-radius:var(--r-card);padding:20px;text-align:center;margin-top:8px}
+.contact-card h3{font-family:"Quicksand";font-weight:700;font-size:18px}
+.contact-card .cbtns{display:flex;gap:10px;margin-top:14px}
+
+/* ============================ FOOTER ============================ */
+footer.site{background:var(--ink);color:#fff;padding:30px 22px 26px;margin-top:8px}
+footer.site .wm{font-family:"Quicksand";font-weight:700;font-size:24px;letter-spacing:-.5px}
+footer.site .wm .oo{color:var(--lav)}
+footer.site .bl{font-family:"Newsreader";font-style:italic;color:#c8c4d4;font-size:14.5px;margin-top:6px}
+.foot-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0}
+.foot-cols h4{font-family:"Quicksand";font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.foot-cols a{display:block;padding:5px 0;font-size:14px;color:#d6d2e0}
+.foot-cols a:hover{color:#fff}
+.foot-btns{display:flex;gap:10px}
+.foot-btns a{flex:1;text-align:center;padding:13px;border-radius:var(--r-btn);font-weight:700;font-size:14px}
+.fb-ig{background:#2a2733;color:#fff}
+.fb-wa{background:var(--lav);color:#fff}
+.copyright{font-size:12px;color:#84808f;margin-top:20px;line-height:1.5}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+@keyframes barUp{from{transform:translate(-50%,100%)}to{transform:translate(-50%,0)}}
+.buybar{animation:barUp .42s var(--ease) both}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+  .reveal{opacity:1!important;transform:none!important}
+}
+</style>
 </head>
 <body>
-  <header>
-    <img class="logo" src="images/logo.png" alt="Humtoon logo" />
+
+<div id="shell">
+  <header class="bar">
+    <button class="bar-btn" id="navBtn" aria-label="Menu">☰</button>
+    <div class="wordmark q" data-nav="home">humt<span class="oo">oo</span>n</div>
+    <a class="bar-btn wa" id="headerWa" aria-label="WhatsApp" target="_blank" rel="noopener">💬</a>
   </header>
+  <main id="app"></main>
+  <footer class="site" id="footer"></footer>
+</div>
 
-  <main class="hero">
-    <span class="badge">Coming soon</span>
-    <h1>Toonify your <span class="accent">favourite people</span>.</h1>
-    <p>Send us a photo &mdash; solo, couple, baby, pet or the whole squad &mdash; and we turn it into a custom acrylic standee or fridge magnet.</p>
-  </main>
+<div id="backdrop"></div>
+<aside id="drawer" aria-hidden="true">
+  <div class="dh">
+    <div class="wordmark q">humt<span class="oo">oo</span>n</div>
+    <button class="bar-btn" id="drawerClose" aria-label="Close">✕</button>
+  </div>
+  <nav>
+    <a data-nav="home">Home</a>
+    <a data-nav="shop">Shop all</a>
+    <a data-nav="guide">Photo guide</a>
+    <a data-nav="faq">FAQ</a>
+  </nav>
+  <div class="drawer-foot">
+    <a class="df-ig" href="https://instagram.com/humtoon.store" target="_blank" rel="noopener">📷 Instagram</a>
+    <a class="df-wa" id="drawerWa" target="_blank" rel="noopener">💬 WhatsApp</a>
+  </div>
+</aside>
 
-  <footer>
-    &copy; <span id="year"></span> Humtoon. Built with care.
-  </footer>
+<script>
+/* ============================ DATA ============================ */
+const WA_NUM = "918320259028";
+const IG = "https://instagram.com/humtoon.store";
+const IMG = f => "images/" + f;
 
-  <!--
-    Skeleton page. The full catalog will be rendered from products.json.
-    See README.md for the data model and next steps.
-  -->
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+const PRODUCTS = [
+  { id:"solo", name:"The Solo Humtoon", tagline:"Capture your vibe.", cat:"solo", people:"1 person",
+    price:"₹850", priceNum:850, badge:null, hot:"Bestseller",
+    blurb:"One photo, one custom-drawn toon. Your everyday mini-me for the desk or the fridge.",
+    after:"solo-businessman-humtoon.jpeg", before:"solo-businessman-original.jpeg",
+    gallery:["solo-businessman-humtoon.jpeg","solo-bluegown-customer.jpeg","solo-yellowsaree-combo.jpeg","solo-graduation-humtoon.jpeg"] },
+  { id:"duo_bundle", name:"The Duo Bundle", tagline:"Perfect for couples or besties.", cat:"couple", people:"2 toons",
+    price:"₹1,400", priceNum:1400, badge:"2 separate toons", hot:null,
+    blurb:"Two separate toons — one for each of you. Stand together, or take one each.",
+    after:"duo-bundle-cream-humtoon.jpeg", before:"duo-bundle-cream-original.jpeg",
+    gallery:["duo-bundle-cream-humtoon.jpeg","duo-bundle-brooklyn-combo.jpeg","duo-bundle-brownsage-combo.jpeg","duo-bundle-brownsage-humtoon-magnet.jpeg"] },
+  { id:"duo_attached", name:"The Attached Duo", tagline:"Better together.", cat:"couple", people:"2 in 1",
+    price:"₹1,300", priceNum:1300, badge:"Both on one base", hot:"Most loved",
+    blurb:"Both of you hand-drawn together on a single piece. The cutest two-in-one for couples.",
+    after:"duo-attached-black-humtoon.jpeg", before:"duo-attached-black-original.jpeg",
+    gallery:["duo-attached-black-humtoon.jpeg","duo-attached-mauve-combo.jpeg","duo-attached-pink-combo.jpeg","duo-attached-teal-humtoon.jpeg"] },
+  { id:"family_squad", name:"The Family / Squad Pack", tagline:"Bring the whole fam to your desk.", cat:"family", people:"4+ people",
+    price:"From ₹1,600", priceNum:1600, badge:"1 combined piece", hot:null,
+    blurb:"The whole crew on one combined toon. Base covers 4 people; add as many as you like.",
+    after:"family-temple-humtoon.jpeg", before:"family-temple-original.jpeg",
+    gallery:["family-temple-humtoon.jpeg","squad-boys-humtoon.jpeg","family-temple-original.jpeg","squad-boys-original.jpeg"] },
+  { id:"paw", name:"The Paw Toon", tagline:"For your furriest family member.", cat:"pet", people:"1 pet",
+    price:"₹850", priceNum:850, badge:null, hot:null,
+    blurb:"Your best friend, toonified — collar, floof and head-tilt included. Tails optional, joy guaranteed.",
+    after:"paw-golden-combo.jpeg", before:"paw-golden-original.jpeg",
+    gallery:["paw-golden-combo.jpeg","paw-golden-original.jpeg"] },
+  { id:"lil", name:"The Lil Toon", tagline:"Toonify your lil baby forever.", cat:"baby", people:"1 baby",
+    price:"₹850", priceNum:850, badge:"Add a name", hot:null,
+    blurb:"Freeze the tiny days forever. A keepsake toon of your little one — standee or named fridge magnet.",
+    after:"lil-swara-humtoon.jpeg", before:"lil-swara-original.jpeg",
+    gallery:["lil-swara-humtoon.jpeg","lil-pinak-humtoon.jpeg","lil-sweetworld-humtoon-magnet.jpeg","lil-swara-original.jpeg"] },
+];
+
+const TRANSFORMS = [
+  {b:"solo-businessman-original.jpeg", a:"solo-businessman-humtoon.jpeg", l:"Blazer & smile"},
+  {b:"paw-golden-original.jpeg", a:"paw-golden-combo.jpeg", l:"Golden pup"},
+  {b:"family-temple-original.jpeg", a:"family-temple-humtoon.jpeg", l:"Family of five"},
+  {b:"lil-swara-original.jpeg", a:"lil-swara-humtoon.jpeg", l:"Baby Swara"},
+  {b:"duo-attached-teal-original.jpeg", a:"duo-attached-teal-humtoon.jpeg", l:"The couple"},
+];
+
+const REVIEWS = [
+  {img:"solo-bluegown-customer.jpeg", name:"Aanchal S.", role:"Solo Humtoon", q:"Got my gown toon and it lives on my desk now — everyone who visits asks where I got it!"},
+  {img:"paw-golden-combo.jpeg", name:"Rhea & Coco", role:"Paw Toon", q:"They nailed the collar and that exact head-tilt. Happy-cried a little, not gonna lie."},
+  {img:"duo-attached-mauve-combo.jpeg", name:"Megha & Arjun", role:"Attached Duo", q:"Our engagement toon on one base — best anniversary gift ever. Premium quality."},
+  {img:"duo-bundle-brownsage-combo.jpeg", name:"The Nairs", role:"Duo Bundle", q:"Two standees, spot-on outfits, and shipping to Pune was quick and well-packed."},
+];
+
+const CATS = [["all","All"],["solo","Solo"],["couple","Couples"],["family","Family"],["pet","Pets"],["baby","Babies"]];
+
+const FORMATS = {standee:"🪑 Standee", magnet:"🧲 Magnet", both:"✨ Both"};
+
+const FAQS = [
+  {q:"How long does it take?", a:"Production 5–7 days after you approve the preview, plus 3–5 days shipping across India."},
+  {q:"Single person vs bundle?", a:"Solo = one toon. Duo Bundle = two separate toons. Attached Duo = both on one base. Family/Squad = one combined piece."},
+  {q:"What if I don't like the preview?", a:"Free revisions until you're happy — we never print until you approve."},
+  {q:"Standee, magnet, or both?", a:"Your pick! Acrylic standee, fridge magnet, or the 2-in-1 \"Both\" on any product page."},
+  {q:"Which photo works best?", a:"Good daylight, clear high-contrast background, eye-level angle. See the Photo Guide."},
+  {q:"Do you ship everywhere?", a:"Yes, pan-India. For international, DM on Instagram or WhatsApp."},
+];
+
+/* ============================ PRICING ============================ */
+// products.json is the single source of truth for prices. We fetch it at runtime
+// and override the baked-in defaults (which keep the site correct over file://).
+function fmtPrice(raw, id){
+  const m = String(raw).match(/\d[\d,]*/);
+  if(!m) return raw;
+  const n = Number(m[0].replace(/,/g,""));
+  const rupee = "₹" + n.toLocaleString("en-IN");
+  return id==="family_squad" ? "From " + rupee : rupee;
+}
+async function loadPrices(){
+  try{
+    const res = await fetch("products.json", {cache:"no-store"});
+    if(!res.ok) return;
+    const data = await res.json();
+    let changed = false;
+    (data.products||[]).forEach(pj=>{
+      const p = PRODUCTS.find(x=>x.id===pj.id);
+      if(!p || !pj.price) return;
+      const num = parseInt(String(pj.price).replace(/[^\d]/g,""), 10);
+      if(!isNaN(num)) p.priceNum = num;
+      const formatted = fmtPrice(pj.price, pj.id);
+      if(formatted !== p.price){ p.price = formatted; changed = true; }
+    });
+    if(changed) render(); // only re-render if a price actually differs (avoids flash)
+  }catch(e){ /* offline / file:// — keep baked-in prices */ }
+}
+
+/* ============================ ORDER LINKS ============================ */
+function waLink(msg){ return "https://wa.me/" + WA_NUM + "?text=" + encodeURIComponent(msg); }
+function orderMsg(p, fmt, n){
+  let f = FORMATS[fmt].replace(/^[^\s]+\s/,""); // strip emoji
+  let ppl = (p.id==="family_squad" && n) ? ` (${n} people)` : "";
+  return `Hi Humtoon! I'd love to order the ${p.name} — ${f}${ppl}. Here is my photo:`;
+}
+
+/* ============================ STATE ============================ */
+const state = { screen:"home", productId:null, cat:"all" };
+const productState = {}; // per-product: {img, fmt, people, photo, photoName}
+
+function getPS(id){
+  if(!productState[id]) productState[id] = {img:0, fmt:"standee", people:4, photo:null, photoName:null};
+  return productState[id];
+}
+
+/* ============================ HELPERS ============================ */
+const $ = (s,r=document)=>r.querySelector(s);
+const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const reducedMotion = ()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function sliderHTML(before, after, hint){
+  return `
+  <div class="ba" data-slider${hint?' data-hint="1"':''} role="slider" aria-label="Drag to compare your photo with the finished toon" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+    <img class="ba-base" src="${IMG(after)}" alt="After — your custom toon" loading="lazy">
+    <img class="ba-top" src="${IMG(before)}" alt="Before — your photo" loading="lazy">
+    <div class="ba-divider"></div>
+    <div class="ba-knob" aria-hidden="true">⇄</div>
+    <span class="lbl lbl-b">BEFORE</span>
+    <span class="lbl lbl-a">AFTER</span>
+  </div>`;
+}
+function initSliders(root){
+  $$("[data-slider]", root).forEach(ba=>{
+    const top = $(".ba-top", ba), div = $(".ba-divider", ba), knob = $(".ba-knob", ba);
+    let pos = 50, dragging=false;
+    const set = p => {
+      pos=Math.max(0,Math.min(100,p));
+      top.style.clipPath=`inset(0 ${100-pos}% 0 0)`; div.style.left=pos+"%"; knob.style.left=pos+"%";
+      ba.setAttribute("aria-valuenow", Math.round(pos));
+    };
+    const fromE = e => { const r=ba.getBoundingClientRect(); set((e.clientX-r.left)/r.width*100); };
+    ba.addEventListener("pointerdown", e=>{dragging=true; ba.setPointerCapture(e.pointerId); fromE(e);});
+    ba.addEventListener("pointermove", e=>{ if(dragging) fromE(e); });
+    ba.addEventListener("pointerup", ()=>dragging=false);
+    ba.addEventListener("pointercancel", ()=>dragging=false);
+    // keyboard accessibility
+    ba.addEventListener("keydown", e=>{
+      if(e.key==="ArrowLeft"){ set(pos-5); e.preventDefault(); }
+      else if(e.key==="ArrowRight"){ set(pos+5); e.preventDefault(); }
+    });
+    set(50);
+    // one-time drag hint on the hero slider to teach the interaction
+    if(ba.dataset.hint && !window.__baHinted && !reducedMotion()){
+      window.__baHinted = true;
+      ba.classList.add("hinting");
+      const seq = [[63,1100],[38,1800],[50,2450]];
+      seq.forEach(([p,t])=>setTimeout(()=>set(p), t));
+      setTimeout(()=>ba.classList.remove("hinting"), 3100);
+    }
+  });
+}
+
+// fade + rise sections into view as the user scrolls
+let _io;
+function initReveal(root){
+  if(reducedMotion()) return;
+  if(!_io) _io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add("in"); _io.unobserve(en.target); } });
+  }, {threshold:.12, rootMargin:"0px 0px -8% 0px"});
+  $$(".screen > section, .screen .dark-panel", root).forEach((el,i)=>{
+    el.classList.add("reveal");
+    el.style.transitionDelay = Math.min(i,4)*40 + "ms";
+    _io.observe(el);
+  });
+}
+
+function productCard(p){
+  return `<div class="card" data-product="${p.id}">
+    <div class="ph">
+      <img src="${IMG(p.after)}" alt="${esc(p.name)}" loading="lazy">
+      <span class="people-pill">${esc(p.people)}</span>
+      ${p.hot?`<span class="hot-pill">${esc(p.hot)}</span>`:""}
+    </div>
+    <div class="body">
+      <div class="nm q">${esc(p.name)}</div>
+      <div class="tg">${esc(p.tagline)}</div>
+      <div class="row">
+        <span class="price q">${esc(p.price)}</span>
+        <span class="plus">+</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ============================ SCREENS ============================ */
+function homeHTML(){
+  return `<div class="screen">
+    <section class="hero">
+      <span class="eyebrow"><span class="dot"></span> 50+ memories toonified</span>
+      <h1 class="q">Turn your favorite memories into <span class="lav">everyday art.</span></h1>
+      <p class="sub">Highly detailed 2D custom toons — for your desk &amp; your fridge.</p>
+      <div class="ba-wrap">
+        ${sliderHTML("solo-businessman-original.jpeg","solo-businessman-humtoon.jpeg", true)}
+        <p class="ba-cap">drag to reveal the toon ✨</p>
+      </div>
+      <div class="hero-btns">
+        <button class="btn btn-pri" data-nav="shop">Create your Humtoon</button>
+        <button class="btn btn-out" data-nav="guide">Photo tips</button>
+      </div>
+      <div class="scarcity">🎨 Only a few artist slots open this week — preview is always free</div>
+    </section>
+
+    <div class="marquee">
+      <div class="marquee-track">${marqueeItems()}${marqueeItems()}</div>
+    </div>
+
+    <section>
+      <div class="sec-head"><h2 class="q">Pick your crew</h2><a data-nav="shop">View all ›</a></div>
+      <div class="scroller no-scrollbar">${PRODUCTS.map(productCard).join("")}</div>
+    </section>
+
+    <section>
+      <div class="dark-panel">
+        <span class="eyebrow-sm">How it works</span>
+        <h2 class="q" style="margin-top:8px">Three easy steps</h2>
+        <div class="step"><div class="num q">1</div><div><h3 class="q">Upload your photo</h3><p>Solo, couple, family, baby or pet — one clear, well-lit shot.</p></div></div>
+        <div class="step"><div class="num q">2</div><div><h3 class="q">Our artists toonify it</h3><p>We hand-draw your 2D toon and send a preview to approve.</p></div></div>
+        <div class="step"><div class="num q">3</div><div><h3 class="q">We print &amp; ship</h3><p>Printed on premium acrylic and delivered to your door.</p></div></div>
+      </div>
+    </section>
+
+    <section>
+      <span class="pill-yellow">🌟 2-in-1 favourite</span>
+      <h2 class="q" style="font-size:22px;margin-top:12px">Desk to fridge in seconds</h2>
+      <p style="color:var(--muted);font-size:14.5px;margin-top:6px">One toon, two ways to show it off. Stand it proud on your desk, or stick it where you'll smile every morning.</p>
+      <div class="duo-imgs">
+        <figure><img src="${IMG("solo-businessman-humtoon.jpeg")}" alt="Desk standee" loading="lazy"><figcaption>🪑 Desk</figcaption></figure>
+        <figure><img src="${IMG("duo-bundle-brownsage-humtoon-magnet.jpeg")}" alt="Fridge magnet" loading="lazy"><figcaption>🧲 Fridge</figcaption></figure>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head"><h2 class="q">The reveal</h2></div>
+      <p style="color:var(--muted);font-size:14.5px;margin:-8px 0 14px">Real photos → real toons.</p>
+      <div class="scroller no-scrollbar">${TRANSFORMS.map(t=>`
+        <div class="reveal-card">
+          <div class="reveal-imgs">
+            <img class="b" src="${IMG(t.b)}" alt="before" loading="lazy">
+            <span class="arrow">→</span>
+            <img class="a" src="${IMG(t.a)}" alt="after" loading="lazy">
+          </div>
+          <div class="rl q">${esc(t.l)}</div>
+        </div>`).join("")}</div>
+    </section>
+
+    <section class="reviews-sec">
+      <div class="sec-head"><h2 class="q">Happy desks &amp; fridges</h2><span class="stars">★★★★★</span></div>
+      <div class="scroller no-scrollbar">${REVIEWS.map(r=>`
+        <div class="review-card">
+          <img src="${IMG(r.img)}" alt="${esc(r.name)}" loading="lazy">
+          <div class="rb">
+            <span class="stars">★★★★★</span>
+            <p class="qt">"${esc(r.q)}"</p>
+            <div class="who q">${esc(r.name)}</div>
+            <div class="role">${esc(r.role)}</div>
+          </div>
+        </div>`).join("")}</div>
+    </section>
+
+    <section>
+      <div class="cta-band">
+        <h2 class="q">Your face belongs on a shelf.</h2>
+        <p>Upload a photo today — preview before you pay.</p>
+        <button class="btn btn-white" data-nav="shop">Create your Humtoon</button>
+      </div>
+    </section>
+  </div>`;
+}
+function marqueeItems(){
+  return `<span>★ 4.9 / 5 rating</span><span>🎨 Hand-drawn artists</span><span>🚚 Pan-India shipping</span><span>♻️ Free revisions</span><span>📦 50+ happy toons</span>`;
+}
+
+function shopHTML(){
+  const list = PRODUCTS.filter(p=>state.cat==="all"||p.cat===state.cat);
+  return `<div class="screen screen-pad">
+    <h1 class="q">Shop all toons</h1>
+    <p class="sh-sub">Find the one that captures your vibe.</p>
+    <div class="chips no-scrollbar">${CATS.map(([c,l])=>`<button class="chip${state.cat===c?" active":""}" data-cat="${c}">${l}</button>`).join("")}</div>
+    <div class="grid2">${list.map(productCard).join("")}</div>
+  </div>`;
+}
+
+function displayPrice(p, ps){
+  if(p.id==="family_squad" && p.priceNum){
+    return "₹" + (p.priceNum + (ps.people-4)*100).toLocaleString("en-IN");
+  }
+  return p.price;
+}
+function productHTML(p){
+  const ps = getPS(p.id);
+  const mainImg = p.gallery[ps.img] || p.after;
+  return `<div class="screen prod">
+    <div class="gallery-main">
+      <img src="${IMG(mainImg)}" alt="${esc(p.name)}" id="prodMain">
+      ${p.badge?`<span class="badge-pill q">${esc(p.badge)}</span>`:""}
+    </div>
+    <div class="thumbs no-scrollbar">${p.gallery.map((g,i)=>`
+      <div class="thumb${i===ps.img?" active":""}" data-thumb="${i}"><img src="${IMG(g)}" alt="" loading="lazy"></div>`).join("")}</div>
+
+    <div class="title-block">
+      <div>
+        <div class="nm q">${esc(p.name)}</div>
+        <div class="tg">${esc(p.tagline)}</div>
+      </div>
+      <div class="pr q" id="titlePrice">${esc(displayPrice(p,ps))}</div>
+    </div>
+    <div class="rating-row"><span class="stars">★★★★★</span> <span>4.9 · loved by 50+ families</span></div>
+
+    <p class="blurb">${esc(p.blurb)}</p>
+
+    <div class="value-note">💜 <span>Free preview before you pay — we never print until you say "yes, that's us!"</span></div>
+
+    <div class="field-label q">Choose your format</div>
+    <div class="formats">${Object.entries(FORMATS).map(([k,v])=>`
+      <button class="fmt${ps.fmt===k?" active":""}" data-fmt="${k}">${v}${k==="both"?`<span class="save">SAVE</span>`:""}</button>`).join("")}</div>
+
+    ${p.id==="family_squad"?`
+    <div class="field-label q">How many people?</div>
+    <div class="stepper">
+      <button data-step="-1">−</button>
+      <span class="cnt q" id="ppl">${ps.people}</span>
+      <button data-step="1">+</button>
+    </div>
+    <p class="helper" id="pplHelp">Base covers 4 · +₹100 each extra (+₹${(ps.people-4)*100})</p>`:""}
+
+    <div class="field-label q">📸 Add your photo <span style="font-weight:600;color:var(--faint);font-size:13px">(optional · preview free)</span></div>
+    <div id="uploadArea">${uploadAreaHTML(ps)}</div>
+    <p class="tip-line">Best results from a clear, well-lit shot. <a data-nav="guide">See photo guide ›</a></p>
+
+    <div class="field-label q">The transformation</div>
+    ${sliderHTML(p.before, p.after)}
+    <p class="ba-cap">drag — that could be your photo ✨</p>
+
+    <div class="trust-row">
+      <div class="trust-mini"><div class="ic">♻️</div><div class="tx q">Free revisions</div></div>
+      <div class="trust-mini"><div class="ic">🛡️</div><div class="tx q">Preview first</div></div>
+      <div class="trust-mini"><div class="ic">🚚</div><div class="tx q">Pan-India</div></div>
+    </div>
+
+    <input type="file" id="fileInput" accept="image/*" hidden>
+  </div>
+  <div class="buybar">
+    <div class="pinfo"><div class="p q" id="buyPrice">${esc(displayPrice(p,ps))}</div><div class="f" id="fmtLabel">${FORMATS[ps.fmt]}</div></div>
+    <a class="btn btn-pri" id="orderBtn" target="_blank" rel="noopener">Order on WhatsApp</a>
+    <a class="ig" href="${IG}" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
+  </div>`;
+}
+function uploadAreaHTML(ps){
+  if(ps.photo){
+    return `<div class="uploaded">
+      <img src="${ps.photo}" alt="your photo">
+      <div>
+        <div class="ok q">Photo added ✓</div>
+        <div class="fn">${esc(ps.photoName||"")}</div>
+        <div class="nt">We'll toonify &amp; send a preview before you pay</div>
+        <div class="chg" id="changePhoto">Change</div>
+      </div>
+    </div>`;
+  }
+  return `<div class="dropzone" id="dropzone"><div class="dz-icon">📸</div><div class="dz-title q">Tap to add a photo</div></div>`;
+}
+
+function guideHTML(){
+  const tips = [
+    ["☀️","Lighting","Natural diffused daylight. No flash — harsh shadows hide features."],
+    ["🎯","Background","High-contrast. Dark outfit? Shoot against a light wall, and vice-versa."],
+    ["📐","Angle","Eye-level is best. Avoid extreme up/down angles that distort the face."],
+    ["🔍","Resolution","Sharpest, highest-res version. Skip heavy filters & beauty smoothing."],
+  ];
+  const good = ["solo-businessman-original.jpeg","family-temple-original.jpeg","paw-golden-original.jpeg"];
+  return `<div class="screen screen-pad">
+    <span class="eyebrow-sm">Get it right</span>
+    <h1 class="q" style="margin-top:8px">How to choose the right photo</h1>
+    <p class="sh-sub">A great toon starts with a great photo — here's how to nail it.</p>
+    <div style="margin-top:20px">${tips.map(([i,t,d])=>`
+      <div class="tip-card"><div class="ic">${i}</div><div><h3 class="q">${t}</h3><p>${d}</p></div></div>`).join("")}</div>
+    <h3 class="q" style="font-size:17px;margin:8px 0 4px">Photos that work great 👇</h3>
+    <div class="good-imgs">${good.map(g=>`<figure><img src="${IMG(g)}" alt="" loading="lazy"><span class="ck">✓</span></figure>`).join("")}</div>
+    <button class="btn btn-pri btn-block" style="margin-top:24px" data-nav="shop">Create your Humtoon</button>
+  </div>`;
+}
+
+function faqHTML(){
+  return `<div class="screen screen-pad">
+    <span class="eyebrow-sm">Good to know</span>
+    <h1 class="q" style="margin-top:8px">Frequently asked</h1>
+    <p class="sh-sub">Everything you need before you order.</p>
+    <div style="margin-top:20px">${FAQS.map((f,i)=>`
+      <div class="faq-item${i===0?" open":""}" data-faq="${i}">
+        <button class="faq-q"><span>${esc(f.q)}</span><span class="pm">${i===0?"–":"+"}</span></button>
+        <div class="faq-a"><div class="inner">${esc(f.a)}</div></div>
+      </div>`).join("")}</div>
+    <div class="contact-card">
+      <h3 class="q">Still have a question?</h3>
+      <p style="color:var(--muted);font-size:14px;margin-top:4px">We usually reply within a few hours.</p>
+      <div class="cbtns">
+        <a class="btn btn-pri" style="flex:1" href="${waLink("Hi Humtoon! I have a question:")}" target="_blank" rel="noopener">💬 WhatsApp</a>
+        <a class="btn btn-out" style="flex:1" href="${IG}" target="_blank" rel="noopener">📷 Instagram</a>
+      </div>
+    </div>
+  </div>`;
+}
+
+function footerHTML(){
+  return `<div class="wm">humt<span class="oo">oo</span>n</div>
+    <p class="bl">Making your favorite memories stand out and stick.</p>
+    <div class="foot-cols">
+      <div><h4>Shop</h4><a data-nav="shop">Shop all</a><a data-nav="guide">Photo guide</a><a data-nav="faq">About us</a></div>
+      <div><h4>Support</h4><a data-nav="faq">FAQ</a><a data-nav="faq">Shipping &amp; delivery</a><a data-nav="faq">Refund &amp; revisions</a></div>
+    </div>
+    <div class="foot-btns">
+      <a class="fb-ig" href="${IG}" target="_blank" rel="noopener">📷 @humtoon.store</a>
+      <a class="fb-wa" href="${waLink("Hi Humtoon!")}" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+    <p class="copyright">© 2026 Humtoon · Turning your favorite photos into fun 2D toons.</p>`;
+}
+
+/* ============================ RENDER ============================ */
+function render(){
+  const app = $("#app");
+  let html = "";
+  if(state.screen==="home") html = homeHTML();
+  else if(state.screen==="shop") html = shopHTML();
+  else if(state.screen==="product") html = productHTML(PRODUCTS.find(p=>p.id===state.productId));
+  else if(state.screen==="guide") html = guideHTML();
+  else if(state.screen==="faq") html = faqHTML();
+  app.innerHTML = html;
+
+  // header left button: hamburger on home, back chevron elsewhere
+  const nb = $("#navBtn");
+  nb.textContent = state.screen==="home" ? "☰" : "‹";
+  nb.style.fontSize = state.screen==="home" ? "20px" : "30px";
+  nb.setAttribute("aria-label", state.screen==="home" ? "Open menu" : "Go back to home");
+
+  initSliders(app);
+  initReveal(app);
+  if(state.screen==="product") wireProduct();
+  $("#footer").style.display = state.screen==="product" ? "none" : "block"; // sticky bar owns product bottom
+  window.scrollTo({top:0,behavior:"instant"});
+}
+
+function go(screen, productId){
+  state.screen = screen;
+  if(productId) state.productId = productId;
+  closeDrawer();
+  render();
+}
+
+/* ============================ PRODUCT WIRING ============================ */
+function wireProduct(){
+  const p = PRODUCTS.find(x=>x.id===state.productId);
+  const ps = getPS(p.id);
+  const updateBuy = ()=>{
+    $("#orderBtn").href = waLink(orderMsg(p, ps.fmt, ps.people));
+    $("#fmtLabel").textContent = FORMATS[ps.fmt];
+  };
+  updateBuy();
+
+  // thumbnails
+  $$(".thumb").forEach(t=>t.addEventListener("click",()=>{
+    ps.img = +t.dataset.thumb;
+    $("#prodMain").src = IMG(p.gallery[ps.img]);
+    $$(".thumb").forEach(x=>x.classList.toggle("active", x===t));
+  }));
+
+  // format
+  $$(".fmt").forEach(f=>f.addEventListener("click",()=>{
+    ps.fmt = f.dataset.fmt;
+    $$(".fmt").forEach(x=>x.classList.toggle("active", x===f));
+    updateBuy();
+  }));
+
+  // stepper
+  $$("[data-step]").forEach(b=>b.addEventListener("click",()=>{
+    ps.people = Math.max(4, Math.min(15, ps.people + (+b.dataset.step)));
+    $("#ppl").textContent = ps.people;
+    $("#pplHelp").textContent = `Base covers 4 · +₹100 each extra (+₹${(ps.people-4)*100})`;
+    const dp = displayPrice(p, ps);
+    $("#buyPrice").textContent = dp;
+    const tp = $("#titlePrice"); if(tp) tp.textContent = dp;
+    updateBuy();
+  }));
+
+  // upload
+  const fileInput = $("#fileInput");
+  const bindDrop = ()=>{ const dz=$("#dropzone"); if(dz) dz.addEventListener("click",()=>fileInput.click()); };
+  const bindChange = ()=>{ const c=$("#changePhoto"); if(c) c.addEventListener("click",()=>fileInput.click()); };
+  bindDrop(); bindChange();
+  fileInput.addEventListener("change",e=>{
+    const file = e.target.files[0]; if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev=>{
+      ps.photo = ev.target.result; ps.photoName = file.name;
+      $("#uploadArea").innerHTML = uploadAreaHTML(ps);
+      bindChange();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+/* ============================ GLOBAL EVENTS ============================ */
+function openDrawer(){ $("#drawer").classList.add("open"); $("#backdrop").classList.add("open"); $("#drawer").setAttribute("aria-hidden","false"); }
+function closeDrawer(){ $("#drawer").classList.remove("open"); $("#backdrop").classList.remove("open"); $("#drawer").setAttribute("aria-hidden","true"); }
+
+document.addEventListener("click", e=>{
+  const nav = e.target.closest("[data-nav]");
+  if(nav){ go(nav.dataset.nav); return; }
+  const prod = e.target.closest("[data-product]");
+  if(prod){ go("product", prod.dataset.product); return; }
+  const cat = e.target.closest("[data-cat]");
+  if(cat){ state.cat = cat.dataset.cat; render(); return; }
+  const faq = e.target.closest("[data-faq]");
+  if(faq){
+    const item = faq;
+    const open = item.classList.contains("open");
+    $$(".faq-item").forEach(x=>{ x.classList.remove("open"); $(".pm",x).textContent="+"; });
+    if(!open){ item.classList.add("open"); $(".pm",item).textContent="–"; }
+    return;
+  }
+});
+
+$("#navBtn").addEventListener("click",()=>{ state.screen==="home" ? openDrawer() : go("home"); });
+$("#drawerClose").addEventListener("click", closeDrawer);
+$("#backdrop").addEventListener("click", closeDrawer);
+
+// header + drawer whatsapp prefilled
+const genericWa = waLink("Hi Humtoon! I'd love to create a custom toon. Here is my photo:");
+$("#headerWa").href = genericWa;
+$("#drawerWa").href = genericWa;
+
+render();
+loadPrices(); // pull live prices from products.json (source of truth)
+</script>
 </body>
 </html>

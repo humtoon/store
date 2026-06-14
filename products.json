@@ -22,7 +22,7 @@
       "tagline": "Capture your vibe.",
       "description": "Client sends a single photo and gets one humtoon of that person.",
       "people": "1",
-      "price": "P1",
+      "price": "850",
       "samples": [
         {
           "id": "solo-businessman",
@@ -63,7 +63,7 @@
       "tagline": "Perfect for couples or besties.",
       "description": "Client gets two separate humtoons, one for each person.",
       "people": "2",
-      "price": "P2",
+      "price": "1400",
       "samples": [
         {
           "id": "duo-bundle-cream",
@@ -98,7 +98,7 @@
       "tagline": "Bring the whole fam to your desk.",
       "description": "A single combined humtoon for the whole group.",
       "people": "4+",
-      "price": "P3 base for 4 people, +100 per extra person above 4",
+      "price": "1600 base for 4 people, +100 per extra person above 4",
       "samples": [
         {
           "id": "family-temple",
@@ -124,7 +124,7 @@
       "tagline": "For your furriest family member.",
       "description": "Client sends a pet photo and gets a single humtoon of the pet.",
       "people": "1 pet",
-      "price": "P3",
+      "price": "850",
       "samples": [
         {
           "id": "paw-golden",
@@ -142,7 +142,7 @@
       "tagline": "Better together.",
       "description": "Client gets a single humtoon with both people attached together in one piece.",
       "people": "2",
-      "price": "P4",
+      "price": "1300",
       "samples": [
         {
           "id": "duo-attached-black",
@@ -184,7 +184,7 @@
       "tagline": "Toonify your lil baby forever.",
       "description": "Client sends a baby photo and gets a single humtoon, available as a standee or a named fridge magnet.",
       "people": "1 baby",
-      "price": "TBD",
+      "price": "850",
       "samples": [
         {
           "id": "lil-swara",
