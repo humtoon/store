@@ -4,12 +4,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Humtoon — Turn your favourite memories into everyday art</title>
-<meta name="description" content="Highly detailed 2D custom toons from your photos — printed on premium acrylic standees & fridge magnets. Preview before you pay. Pan-India shipping." />
+<meta name="description" content="Highly detailed 2D custom toons from your photos — printed on premium acrylic standees & fridge magnets. Pan-India shipping." />
 <meta name="theme-color" content="#7a5af0" />
 <meta property="og:title" content="Humtoon — your face belongs on a shelf" />
-<meta property="og:description" content="Send a photo, get a hand-drawn toon on an acrylic standee or fridge magnet. Free preview before you pay." />
+<meta property="og:description" content="Send a photo, get a hand-drawn toon on a premium acrylic standee & fridge magnet. Pan-India shipping." />
 <meta property="og:type" content="website" />
-<meta property="og:image" content="images/solo-businessman-humtoon.jpeg" />
+<meta property="og:image" content="images/solo-graduation-humtoon.jpeg" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -280,31 +280,14 @@ section{padding:26px 22px}
 .rating-row{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:13px;color:var(--muted)}
 .blurb{font-size:15px;color:var(--muted);margin-top:14px;line-height:1.6}
 .field-label{font-family:"Quicksand";font-weight:700;font-size:15px;margin:22px 0 10px;display:flex;align-items:center;gap:8px}
-.formats{display:flex;gap:9px}
-.fmt{flex:1;position:relative;background:#fff;border:1.5px solid var(--line);border-radius:var(--r-btn);padding:13px 6px;text-align:center;font-family:"Quicksand";font-weight:700;font-size:14px;transition:.15s}
-.fmt.active{background:var(--lav-chip);border-color:var(--lav);color:var(--lav-dark)}
-.fmt .save{position:absolute;top:-9px;right:-6px;background:var(--yellow);color:var(--ink);font-size:10px;font-weight:800;padding:3px 7px;border-radius:var(--r-pill)}
 .stepper{display:flex;align-items:center;gap:16px}
 .stepper button{width:42px;height:42px;border-radius:12px;background:var(--lav-chip);color:var(--lav-dark);font-size:22px;font-weight:700;display:grid;place-items:center}
 .stepper .cnt{font-family:"Quicksand";font-weight:700;font-size:22px;min-width:34px;text-align:center}
 .helper{font-size:13px;color:var(--muted);margin-top:9px}
-.dropzone{border:2px dashed #d9d2ee;border-radius:var(--r-card);padding:26px 16px;text-align:center;color:var(--muted);background:var(--tint);transition:.15s;cursor:pointer}
-.dropzone:hover{border-color:var(--lav);background:var(--lav-chip)}
-.dz-icon{font-size:30px}
-.dz-title{font-family:"Quicksand";font-weight:700;font-size:15px;color:var(--ink);margin-top:6px}
-.uploaded{display:flex;gap:13px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:13px}
-.uploaded img{width:60px;height:60px;border-radius:12px;object-fit:cover;flex:0 0 60px}
-.uploaded .ok{font-family:"Quicksand";font-weight:700;color:var(--green);font-size:14px}
-.uploaded .fn{font-size:12.5px;color:var(--faint);word-break:break-all}
-.uploaded .nt{font-size:12.5px;color:var(--muted);margin-top:3px}
-.uploaded .chg{font-size:13px;font-weight:700;color:var(--lav);margin-top:6px}
-.tip-line{font-size:13px;color:var(--muted);margin-top:10px}
-.tip-line a{color:var(--lav);font-weight:700}
 .trust-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-top:24px}
 .trust-mini{background:var(--tint);border:1px solid var(--line);border-radius:14px;padding:13px 8px;text-align:center}
 .trust-mini .ic{font-size:20px}
 .trust-mini .tx{font-family:"Quicksand";font-weight:700;font-size:11.5px;margin-top:5px;line-height:1.25}
-.value-note{display:flex;gap:10px;align-items:flex-start;background:var(--lav-chip);border-radius:var(--r-card);padding:14px;margin-top:16px;font-size:13.5px;color:var(--lav-dark);font-weight:600}
 
 /* STICKY BUY BAR */
 .buybar{
@@ -407,8 +390,8 @@ const PRODUCTS = [
   { id:"solo", name:"The Solo Humtoon", tagline:"Capture your vibe.", cat:"solo", people:"1 person",
     price:"₹850", priceNum:850, badge:null, hot:"Bestseller",
     blurb:"One photo, one custom-drawn toon. Your everyday mini-me for the desk or the fridge.",
-    after:"solo-businessman-humtoon.jpeg", before:"solo-businessman-original.jpeg",
-    gallery:["solo-businessman-humtoon.jpeg","solo-bluegown-customer.jpeg","solo-yellowsaree-combo.jpeg","solo-graduation-humtoon.jpeg"] },
+    after:"solo-graduation-humtoon.jpeg", before:"solo-graduation-original.jpeg",
+    gallery:["solo-graduation-humtoon.jpeg","solo-bluegown-customer.jpeg","solo-yellowsaree-combo.jpeg"] },
   { id:"duo_bundle", name:"The Duo Bundle", tagline:"Perfect for couples or besties.", cat:"couple", people:"2 toons",
     price:"₹1,400", priceNum:1400, badge:"2 separate toons", hot:null,
     blurb:"Two separate toons — one for each of you. Stand together, or take one each.",
@@ -437,7 +420,7 @@ const PRODUCTS = [
 ];
 
 const TRANSFORMS = [
-  {b:"solo-businessman-original.jpeg", a:"solo-businessman-humtoon.jpeg", l:"Blazer & smile"},
+  {b:"solo-graduation-original.jpeg", a:"solo-graduation-humtoon.jpeg", l:"Graduation day"},
   {b:"paw-golden-original.jpeg", a:"paw-golden-combo.jpeg", l:"Golden pup"},
   {b:"family-temple-original.jpeg", a:"family-temple-humtoon.jpeg", l:"Family of five"},
   {b:"lil-swara-original.jpeg", a:"lil-swara-humtoon.jpeg", l:"Baby Swara"},
@@ -445,21 +428,20 @@ const TRANSFORMS = [
 ];
 
 const REVIEWS = [
-  {img:"solo-bluegown-customer.jpeg", name:"Aanchal S.", role:"Solo Humtoon", q:"Got my gown toon and it lives on my desk now — everyone who visits asks where I got it!"},
+  {img:"solo-bluegown-customer.jpeg", name:"Riddhi", role:"Solo Humtoon", q:"Got my gown toon and it lives on my desk now — everyone who visits asks where I got it!"},
   {img:"paw-golden-combo.jpeg", name:"Rhea & Coco", role:"Paw Toon", q:"They nailed the collar and that exact head-tilt. Happy-cried a little, not gonna lie."},
-  {img:"duo-attached-mauve-combo.jpeg", name:"Megha & Arjun", role:"Attached Duo", q:"Our engagement toon on one base — best anniversary gift ever. Premium quality."},
-  {img:"duo-bundle-brownsage-combo.jpeg", name:"The Nairs", role:"Duo Bundle", q:"Two standees, spot-on outfits, and shipping to Pune was quick and well-packed."},
+  {img:"duo-attached-mauve-combo.jpeg", name:"Ria & Arjun", role:"Attached Duo", q:"He gave me this on our first anniversary — best anniversary gift ever. Its sooo better in person"},
+  {img:"duo-bundle-brownsage-combo.jpeg", name:"Dhruv & Harshita", role:"Duo Bundle", q:"The lilttle intricate details in our outfits are perfect. We love it!"},
 ];
 
 const CATS = [["all","All"],["solo","Solo"],["couple","Couples"],["family","Family"],["pet","Pets"],["baby","Babies"]];
 
-const FORMATS = {standee:"🪑 Standee", magnet:"🧲 Magnet", both:"✨ Both"};
 
 const FAQS = [
-  {q:"How long does it take?", a:"Production 5–7 days after you approve the preview, plus 3–5 days shipping across India."},
+  {q:"How long does it take?", a:"Production 5–7 days after you place your order, plus 3–5 days shipping across India."},
   {q:"Single person vs bundle?", a:"Solo = one toon. Duo Bundle = two separate toons. Attached Duo = both on one base. Family/Squad = one combined piece."},
-  {q:"What if I don't like the preview?", a:"Free revisions until you're happy — we never print until you approve."},
-  {q:"Standee, magnet, or both?", a:"Your pick! Acrylic standee, fridge magnet, or the 2-in-1 \"Both\" on any product page."},
+  {q:"What's it made of?", a:"Premium acrylic with vivid, fade-resistant printing — built to last on your desk and your fridge."},
+  {q:"Standee or fridge magnet?", a:"Both — it's one product, two ways to show it off. Each Humtoon is premium acrylic you can stand on your desk and stick on your fridge."},
   {q:"Which photo works best?", a:"Good daylight, clear high-contrast background, eye-level angle. See the Photo Guide."},
   {q:"Do you ship everywhere?", a:"Yes, pan-India. For international, DM on Instagram or WhatsApp."},
 ];
@@ -494,18 +476,17 @@ async function loadPrices(){
 
 /* ============================ ORDER LINKS ============================ */
 function waLink(msg){ return "https://wa.me/" + WA_NUM + "?text=" + encodeURIComponent(msg); }
-function orderMsg(p, fmt, n){
-  let f = FORMATS[fmt].replace(/^[^\s]+\s/,""); // strip emoji
+function orderMsg(p, n){
   let ppl = (p.id==="family_squad" && n) ? ` (${n} people)` : "";
-  return `Hi Humtoon! I'd love to order the ${p.name} — ${f}${ppl}. Here is my photo:`;
+  return `Hi Humtoon! I'd love to order the ${p.name}${ppl}. Here is my photo:`;
 }
 
 /* ============================ STATE ============================ */
 const state = { screen:"home", productId:null, cat:"all" };
-const productState = {}; // per-product: {img, fmt, people, photo, photoName}
+const productState = {}; // per-product: {img, people}
 
 function getPS(id){
-  if(!productState[id]) productState[id] = {img:0, fmt:"standee", people:4, photo:null, photoName:null};
+  if(!productState[id]) productState[id] = {img:0, people:4};
   return productState[id];
 }
 
@@ -598,14 +579,14 @@ function homeHTML(){
       <h1 class="q">Turn your favorite memories into <span class="lav">everyday art.</span></h1>
       <p class="sub">Highly detailed 2D custom toons — for your desk &amp; your fridge.</p>
       <div class="ba-wrap">
-        ${sliderHTML("solo-businessman-original.jpeg","solo-businessman-humtoon.jpeg", true)}
+        ${sliderHTML("solo-graduation-original.jpeg","solo-graduation-humtoon.jpeg", true)}
         <p class="ba-cap">drag to reveal the toon ✨</p>
       </div>
       <div class="hero-btns">
         <button class="btn btn-pri" data-nav="shop">Create your Humtoon</button>
         <button class="btn btn-out" data-nav="guide">Photo tips</button>
       </div>
-      <div class="scarcity">🎨 Only a few artist slots open this week — preview is always free</div>
+      <div class="scarcity">🎨 Only a few artist slots open this week — order yours today</div>
     </section>
 
     <div class="marquee">
@@ -621,8 +602,8 @@ function homeHTML(){
       <div class="dark-panel">
         <span class="eyebrow-sm">How it works</span>
         <h2 class="q" style="margin-top:8px">Three easy steps</h2>
-        <div class="step"><div class="num q">1</div><div><h3 class="q">Upload your photo</h3><p>Solo, couple, family, baby or pet — one clear, well-lit shot.</p></div></div>
-        <div class="step"><div class="num q">2</div><div><h3 class="q">Our artists toonify it</h3><p>We hand-draw your 2D toon and send a preview to approve.</p></div></div>
+        <div class="step"><div class="num q">1</div><div><h3 class="q">Send us your photo</h3><p>Solo, couple, family, baby or pet — one clear, well-lit shot over WhatsApp.</p></div></div>
+        <div class="step"><div class="num q">2</div><div><h3 class="q">Our artists toonify it</h3><p>We hand-draw your one-of-a-kind 2D toon with care.</p></div></div>
         <div class="step"><div class="num q">3</div><div><h3 class="q">We print &amp; ship</h3><p>Printed on premium acrylic and delivered to your door.</p></div></div>
       </div>
     </section>
@@ -632,7 +613,7 @@ function homeHTML(){
       <h2 class="q" style="font-size:22px;margin-top:12px">Desk to fridge in seconds</h2>
       <p style="color:var(--muted);font-size:14.5px;margin-top:6px">One toon, two ways to show it off. Stand it proud on your desk, or stick it where you'll smile every morning.</p>
       <div class="duo-imgs">
-        <figure><img src="${IMG("solo-businessman-humtoon.jpeg")}" alt="Desk standee" loading="lazy"><figcaption>🪑 Desk</figcaption></figure>
+        <figure><img src="${IMG("solo-graduation-humtoon.jpeg")}" alt="Desk standee" loading="lazy"><figcaption>🪑 Desk</figcaption></figure>
         <figure><img src="${IMG("duo-bundle-brownsage-humtoon-magnet.jpeg")}" alt="Fridge magnet" loading="lazy"><figcaption>🧲 Fridge</figcaption></figure>
       </div>
     </section>
@@ -668,14 +649,14 @@ function homeHTML(){
     <section>
       <div class="cta-band">
         <h2 class="q">Your face belongs on a shelf.</h2>
-        <p>Upload a photo today — preview before you pay.</p>
+        <p>Send a photo today — your custom toon is waiting.</p>
         <button class="btn btn-white" data-nav="shop">Create your Humtoon</button>
       </div>
     </section>
   </div>`;
 }
 function marqueeItems(){
-  return `<span>★ 4.9 / 5 rating</span><span>🎨 Hand-drawn artists</span><span>🚚 Pan-India shipping</span><span>♻️ Free revisions</span><span>📦 50+ happy toons</span>`;
+  return `<span>★ 4.9 / 5 rating</span><span>🎨 Hand-drawn artists</span><span>🚚 Pan-India shipping</span><span>💎 Premium acrylic</span><span>📦 50+ happy toons</span>`;
 }
 
 function shopHTML(){
@@ -716,11 +697,8 @@ function productHTML(p){
 
     <p class="blurb">${esc(p.blurb)}</p>
 
-    <div class="value-note">💜 <span>Free preview before you pay — we never print until you say "yes, that's us!"</span></div>
-
-    <div class="field-label q">Choose your format</div>
-    <div class="formats">${Object.entries(FORMATS).map(([k,v])=>`
-      <button class="fmt${ps.fmt===k?" active":""}" data-fmt="${k}">${v}${k==="both"?`<span class="save">SAVE</span>`:""}</button>`).join("")}</div>
+    <div class="field-label q">🪑 One toon · 🧲 two ways</div>
+    <p class="helper" style="margin-top:-2px">Premium acrylic that stands proud on your desk and sticks right on your fridge — one Humtoon, both ways.</p>
 
     ${p.id==="family_squad"?`
     <div class="field-label q">How many people?</div>
@@ -731,41 +709,21 @@ function productHTML(p){
     </div>
     <p class="helper" id="pplHelp">Base covers 4 · +₹100 each extra (+₹${(ps.people-4)*100})</p>`:""}
 
-    <div class="field-label q">📸 Add your photo <span style="font-weight:600;color:var(--faint);font-size:13px">(optional · preview free)</span></div>
-    <div id="uploadArea">${uploadAreaHTML(ps)}</div>
-    <p class="tip-line">Best results from a clear, well-lit shot. <a data-nav="guide">See photo guide ›</a></p>
-
     <div class="field-label q">The transformation</div>
     ${sliderHTML(p.before, p.after)}
     <p class="ba-cap">drag — that could be your photo ✨</p>
 
     <div class="trust-row">
-      <div class="trust-mini"><div class="ic">♻️</div><div class="tx q">Free revisions</div></div>
-      <div class="trust-mini"><div class="ic">🛡️</div><div class="tx q">Preview first</div></div>
+      <div class="trust-mini"><div class="ic">🎨</div><div class="tx q">Hand-drawn</div></div>
+      <div class="trust-mini"><div class="ic">💎</div><div class="tx q">Premium acrylic</div></div>
       <div class="trust-mini"><div class="ic">🚚</div><div class="tx q">Pan-India</div></div>
     </div>
-
-    <input type="file" id="fileInput" accept="image/*" hidden>
   </div>
   <div class="buybar">
-    <div class="pinfo"><div class="p q" id="buyPrice">${esc(displayPrice(p,ps))}</div><div class="f" id="fmtLabel">${FORMATS[ps.fmt]}</div></div>
+    <div class="pinfo"><div class="p q" id="buyPrice">${esc(displayPrice(p,ps))}</div><div class="f">🪑 Desk · 🧲 Fridge</div></div>
     <a class="btn btn-pri" id="orderBtn" target="_blank" rel="noopener">Order on WhatsApp</a>
     <a class="ig" href="${IG}" target="_blank" rel="noopener" aria-label="Instagram">📷</a>
   </div>`;
-}
-function uploadAreaHTML(ps){
-  if(ps.photo){
-    return `<div class="uploaded">
-      <img src="${ps.photo}" alt="your photo">
-      <div>
-        <div class="ok q">Photo added ✓</div>
-        <div class="fn">${esc(ps.photoName||"")}</div>
-        <div class="nt">We'll toonify &amp; send a preview before you pay</div>
-        <div class="chg" id="changePhoto">Change</div>
-      </div>
-    </div>`;
-  }
-  return `<div class="dropzone" id="dropzone"><div class="dz-icon">📸</div><div class="dz-title q">Tap to add a photo</div></div>`;
 }
 
 function guideHTML(){
@@ -775,7 +733,7 @@ function guideHTML(){
     ["📐","Angle","Eye-level is best. Avoid extreme up/down angles that distort the face."],
     ["🔍","Resolution","Sharpest, highest-res version. Skip heavy filters & beauty smoothing."],
   ];
-  const good = ["solo-businessman-original.jpeg","family-temple-original.jpeg","paw-golden-original.jpeg"];
+  const good = ["solo-graduation-original.jpeg","family-temple-original.jpeg","paw-golden-original.jpeg"];
   return `<div class="screen screen-pad">
     <span class="eyebrow-sm">Get it right</span>
     <h1 class="q" style="margin-top:8px">How to choose the right photo</h1>
@@ -814,7 +772,7 @@ function footerHTML(){
     <p class="bl">Making your favorite memories stand out and stick.</p>
     <div class="foot-cols">
       <div><h4>Shop</h4><a data-nav="shop">Shop all</a><a data-nav="guide">Photo guide</a><a data-nav="faq">About us</a></div>
-      <div><h4>Support</h4><a data-nav="faq">FAQ</a><a data-nav="faq">Shipping &amp; delivery</a><a data-nav="faq">Refund &amp; revisions</a></div>
+      <div><h4>Support</h4><a data-nav="faq">FAQ</a><a data-nav="faq">Shipping &amp; delivery</a><a data-nav="faq">Refunds &amp; returns</a></div>
     </div>
     <div class="foot-btns">
       <a class="fb-ig" href="${IG}" target="_blank" rel="noopener">📷 @humtoon.store</a>
@@ -859,8 +817,7 @@ function wireProduct(){
   const p = PRODUCTS.find(x=>x.id===state.productId);
   const ps = getPS(p.id);
   const updateBuy = ()=>{
-    $("#orderBtn").href = waLink(orderMsg(p, ps.fmt, ps.people));
-    $("#fmtLabel").textContent = FORMATS[ps.fmt];
+    $("#orderBtn").href = waLink(orderMsg(p, ps.people));
   };
   updateBuy();
 
@@ -869,13 +826,6 @@ function wireProduct(){
     ps.img = +t.dataset.thumb;
     $("#prodMain").src = IMG(p.gallery[ps.img]);
     $$(".thumb").forEach(x=>x.classList.toggle("active", x===t));
-  }));
-
-  // format
-  $$(".fmt").forEach(f=>f.addEventListener("click",()=>{
-    ps.fmt = f.dataset.fmt;
-    $$(".fmt").forEach(x=>x.classList.toggle("active", x===f));
-    updateBuy();
   }));
 
   // stepper
@@ -888,22 +838,6 @@ function wireProduct(){
     const tp = $("#titlePrice"); if(tp) tp.textContent = dp;
     updateBuy();
   }));
-
-  // upload
-  const fileInput = $("#fileInput");
-  const bindDrop = ()=>{ const dz=$("#dropzone"); if(dz) dz.addEventListener("click",()=>fileInput.click()); };
-  const bindChange = ()=>{ const c=$("#changePhoto"); if(c) c.addEventListener("click",()=>fileInput.click()); };
-  bindDrop(); bindChange();
-  fileInput.addEventListener("change",e=>{
-    const file = e.target.files[0]; if(!file) return;
-    const reader = new FileReader();
-    reader.onload = ev=>{
-      ps.photo = ev.target.result; ps.photoName = file.name;
-      $("#uploadArea").innerHTML = uploadAreaHTML(ps);
-      bindChange();
-    };
-    reader.readAsDataURL(file);
-  });
 }
 
 /* ============================ GLOBAL EVENTS ============================ */
