@@ -340,19 +340,40 @@ section{padding:26px 22px}
 .contact-card .cbtns{display:flex;gap:10px;margin-top:14px}
 
 /* ============================ FOOTER ============================ */
-footer.site{background:var(--ink);color:#fff;padding:30px 22px 26px;margin-top:8px}
-footer.site .wm{font-family:"Quicksand";font-weight:700;font-size:24px;letter-spacing:.5px;text-transform:uppercase}
+footer.site{background:var(--ink);color:#fff;padding:32px 22px 26px;margin-top:8px}
+footer.site .wm{font-family:"Quicksand";font-weight:700;font-size:26px;letter-spacing:.5px;text-transform:uppercase}
 footer.site .wm .oo{color:var(--lav)}
-footer.site .bl{font-family:"Newsreader";font-style:italic;color:#c8c4d4;font-size:14.5px;margin-top:6px}
-.foot-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0}
+.foot-statement{color:#d6d2e0;font-size:15px;line-height:1.65;margin:12px 0 18px;max-width:38ch}
+.foot-statement .ed{color:var(--yellow);font-size:16px}
+.foot-cta{width:100%}
+.foot-trust{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 4px}
+.foot-trust span{background:#2a2733;color:#e8e5ef;font-family:"Quicksand";font-weight:700;font-size:12px;padding:8px 13px;border-radius:var(--r-pill)}
+.foot-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:24px 0 0}
 .foot-cols h4{font-family:"Quicksand";font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
-.foot-cols a{display:block;padding:5px 0;font-size:14px;color:#d6d2e0}
-.foot-cols a:hover{color:#fff}
+.foot-cols a{display:block;padding:6px 0;font-size:14px;color:#d6d2e0;cursor:pointer;transition:color .15s,padding-left .15s}
+.foot-cols a:hover{color:#fff;padding-left:5px}
+.foot-social{margin-top:24px}
+.foot-social-label{display:block;font-family:"Quicksand";font-weight:700;font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
 .foot-btns{display:flex;gap:10px}
-.foot-btns a{flex:1;text-align:center;padding:13px;border-radius:var(--r-btn);font-weight:700;font-size:14px}
-.fb-ig{background:#2a2733;color:#fff}
-.fb-wa{background:var(--lav);color:#fff}
-.copyright{font-size:12px;color:#84808f;margin-top:20px;line-height:1.5}
+.foot-btns a{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:var(--r-btn);font-weight:700;font-size:14px;font-family:"Quicksand";transition:transform .12s,filter .18s}
+.foot-btns a:active{transform:scale(.96)}
+.foot-btns a:hover{filter:brightness(1.07)}
+.foot-btns a svg{width:18px;height:18px;fill:currentColor;flex:0 0 auto}
+.fb-ig{background:linear-gradient(135deg,#feda75,#fa7e1e 28%,#d62976 56%,#962fbf 78%,#4f5bd5);color:#fff}
+.fb-wa{background:#25D366;color:#fff}
+.copyright{font-size:12px;color:#84808f;margin-top:24px;line-height:1.6;border-top:1px solid #2a2733;padding-top:18px}
+
+/* ============================ POLICY SHEET ============================ */
+#sheetBack{position:fixed;inset:0;z-index:60;background:rgba(28,26,36,.5);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:opacity .28s}
+#sheetBack.open{opacity:1;visibility:visible}
+#sheet{position:fixed;left:50%;bottom:0;z-index:61;width:100%;max-width:var(--max);background:var(--app);border-radius:22px 22px 0 0;padding:14px 22px calc(24px + env(safe-area-inset-bottom));box-shadow:var(--shadow-lg);transform:translate(-50%,105%);transition:transform .32s cubic-bezier(.3,.9,.3,1);max-height:82vh;overflow-y:auto}
+#sheet.open{transform:translate(-50%,0)}
+.sheet-grip{width:42px;height:5px;border-radius:999px;background:var(--line);margin:2px auto 16px}
+.sheet-head{display:flex;align-items:center;gap:11px;margin-bottom:12px}
+.sheet-head .ic{font-size:26px}
+.sheet-head h3{font-family:"Quicksand";font-weight:700;font-size:20px;letter-spacing:-.3px}
+.sheet-body p{font-size:14.5px;color:var(--muted);line-height:1.65;margin-bottom:12px}
+.sheet-body p b{color:var(--ink);font-weight:800}
 
 /* SCROLL REVEAL */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
@@ -397,11 +418,39 @@ footer.site .bl{font-family:"Newsreader";font-style:italic;color:#c8c4d4;font-si
   </div>
 </aside>
 
+<div id="sheetBack"></div>
+<aside id="sheet" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet-grip"></div>
+  <div id="sheetBody"></div>
+</aside>
+
 <script>
 /* ============================ DATA ============================ */
 const WA_NUM = "918320259028";
 const IG = "https://instagram.com/humtoon.store";
 const IMG = f => "images/" + f;
+
+// Brand icons (Simple Icons paths) — inline so they inherit currentColor
+const IG_SVG = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.242 1.308 3.608.058 1.266.069 1.646.069 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.242-1.308-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.974-.974 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0 1.802c-3.15 0-3.522.012-4.764.069-1.15.052-1.774.244-2.19.405-.55.214-.943.469-1.356.882-.413.413-.668.806-.882 1.356-.161.416-.353 1.04-.405 2.19-.057 1.242-.069 1.614-.069 4.764s.012 3.522.069 4.764c.052 1.15.244 1.774.405 2.19.214.55.469.943.882 1.356.413.413.806.668 1.356.882.416.161 1.04.353 2.19.405 1.242.057 1.614.069 4.764.069s3.522-.012 4.764-.069c1.15-.052 1.774-.244 2.19-.405.55-.214.943-.469 1.356-.882.413-.413.668-.806.882-1.356.161-.416.353-1.04.405-2.19.057-1.242.069-1.614.069-4.764s-.012-3.522-.069-4.764c-.052-1.15-.244-1.774-.405-2.19-.214-.55-.469-.943-.882-1.356-.413-.413-.806-.668-1.356-.882-.416-.161-1.04-.353-2.19-.405-1.242-.057-1.614-.069-4.764-.069zm0 3.064A5.135 5.135 0 1 0 12 17.135 5.135 5.135 0 0 0 12 6.865zm0 8.468A3.333 3.333 0 1 1 12 8.667a3.333 3.333 0 0 1 0 6.666zm6.538-8.671a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z"/></svg>`;
+const WA_SVG = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>`;
+
+// Customer-support policies shown in the footer bottom-sheet
+const POLICIES = {
+  shipping: {
+    icon:"🚚",
+    title:"Shipping & Delivery",
+    body:`<p><b>Delivery is on us — always free, all across India.</b> No hidden charges, no minimum order. Wherever you are, your Humtoon comes home to you at zero extra cost.</p>
+      <p>Each toon is hand-drawn just for you, so good things take a little time. Production runs <b>5–7 days</b> after you approve your design, then <b>3–5 days</b> in transit. We'll share tracking the moment it's on its way to your door.</p>
+      <p>Shipping outside India? Drop us a message on WhatsApp or Instagram and we'll happily sort it out. 🌍</p>`
+  },
+  refund: {
+    icon:"💛",
+    title:"Refund & Revision Policy",
+    body:`<p>Because every Humtoon is hand-drawn from scratch — for you and you alone — <b>all sales are final and we don't offer refunds.</b></p>
+      <p>But here's our promise: <b>we don't stop until you're smiling.</b> We share your toon for approval and fine-tune it with revisions — the shape, the little details, the vibe — <b>before</b> it ever goes to print. So what lands on your desk is exactly the memory you pictured.</p>
+      <p>Notice a print or shipping fault on our end after it arrives? Tell us and we'll make it right. ✨</p>`
+  },
+};
 
 const PRODUCTS = [
   { id:"solo", name:"The Solo Humtoon", tagline:"Capture your vibe.", cat:"solo", people:"1 person",
@@ -851,16 +900,38 @@ function faqHTML(){
 
 function footerHTML(){
   return `<div class="wm">humt<span class="oo">oo</span>n</div>
-    <p class="bl">Making your favorite memories stand out and stick.</p>
+    <p class="foot-statement">Some moments deserve more than a forgotten camera roll. We hand-draw the people, pets and days you love most — and turn them into art you'll smile at every single morning. <span class="ed">Your memory, everyday.</span></p>
+    <button class="btn btn-pri foot-cta" data-nav="shop">Create your Humtoon →</button>
+
+    <div class="foot-trust">
+      <span>🚚 Free delivery</span><span>🇮🇳 Pan-India</span><span>🎨 Hand-drawn</span><span>💎 Premium acrylic</span>
+    </div>
+
     <div class="foot-cols">
-      <div><h4>Shop</h4><a data-nav="shop">Shop all</a><a data-nav="guide">Photo guide</a><a data-nav="faq">About us</a></div>
-      <div><h4>Support</h4><a data-nav="faq">FAQ</a><a data-nav="faq">Shipping &amp; delivery</a><a data-nav="faq">Refunds &amp; returns</a></div>
+      <div>
+        <h4>Quick Links</h4>
+        <a data-nav="home">Home</a>
+        <a data-nav="shop">Shop all</a>
+        <a data-nav="guide">Photo guide</a>
+        <a data-nav="faq">FAQ</a>
+      </div>
+      <div>
+        <h4>Customer Support</h4>
+        <a data-nav="faq">FAQ</a>
+        <a data-policy="shipping">Shipping &amp; Delivery</a>
+        <a data-policy="refund">Refund &amp; Revision Policy</a>
+      </div>
     </div>
-    <div class="foot-btns">
-      <a class="fb-ig" href="${IG}" target="_blank" rel="noopener">📷 @humtoon.store</a>
-      <a class="fb-wa" href="${waLink("Hi Humtoon!")}" target="_blank" rel="noopener">💬 WhatsApp</a>
+
+    <div class="foot-social">
+      <span class="foot-social-label">Let's be friends 💛</span>
+      <div class="foot-btns">
+        <a class="fb-ig" href="${IG}" target="_blank" rel="noopener" aria-label="Follow us on Instagram">${IG_SVG} Instagram</a>
+        <a class="fb-wa" href="${waLink("Hi Humtoon! I'd love to create a custom toon.")}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">${WA_SVG} WhatsApp</a>
+      </div>
     </div>
-    <p class="copyright">© 2026 Humtoon · Turning your favorite photos into fun 2D toons.</p>`;
+
+    <p class="copyright">© 2026 Humtoon · Turning your favorite photos into fun 2D toons.<br>Hand-drawn with 🎨 in India.</p>`;
 }
 
 /* ============================ RENDER ============================ */
@@ -892,6 +963,7 @@ function go(screen, productId){
   state.screen = screen;
   if(productId) state.productId = productId;
   closeDrawer();
+  closeSheet();
   render();
 }
 
@@ -927,6 +999,16 @@ function wireProduct(){
 function openDrawer(){ $("#drawer").classList.add("open"); $("#backdrop").classList.add("open"); $("#drawer").setAttribute("aria-hidden","false"); }
 function closeDrawer(){ $("#drawer").classList.remove("open"); $("#backdrop").classList.remove("open"); $("#drawer").setAttribute("aria-hidden","true"); }
 
+function openSheet(key){
+  const pol = POLICIES[key]; if(!pol) return;
+  $("#sheetBody").innerHTML = `
+    <div class="sheet-head"><span class="ic">${pol.icon}</span><h3 class="q" id="sheetTitle">${esc(pol.title)}</h3></div>
+    <div class="sheet-body">${pol.body}</div>
+    <button class="btn btn-pri btn-block" data-nav="shop" style="margin-top:6px">Create your Humtoon →</button>`;
+  $("#sheet").classList.add("open"); $("#sheetBack").classList.add("open"); $("#sheet").setAttribute("aria-hidden","false");
+}
+function closeSheet(){ $("#sheet").classList.remove("open"); $("#sheetBack").classList.remove("open"); $("#sheet").setAttribute("aria-hidden","true"); }
+
 document.addEventListener("click", e=>{
   const nav = e.target.closest("[data-nav]");
   if(nav){ go(nav.dataset.nav); return; }
@@ -934,6 +1016,8 @@ document.addEventListener("click", e=>{
   if(prod){ go("product", prod.dataset.product); return; }
   const cat = e.target.closest("[data-cat]");
   if(cat){ state.cat = cat.dataset.cat; render(); return; }
+  const pol = e.target.closest("[data-policy]");
+  if(pol){ openSheet(pol.dataset.policy); return; }
   const faq = e.target.closest("[data-faq]");
   if(faq){
     const item = faq;
@@ -947,6 +1031,8 @@ document.addEventListener("click", e=>{
 $("#navBtn").addEventListener("click",()=>{ state.screen==="home" ? openDrawer() : go("home"); });
 $("#drawerClose").addEventListener("click", closeDrawer);
 $("#backdrop").addEventListener("click", closeDrawer);
+$("#sheetBack").addEventListener("click", closeSheet);
+document.addEventListener("keydown", e=>{ if(e.key==="Escape"){ closeDrawer(); closeSheet(); } });
 
 // header + drawer whatsapp prefilled
 const genericWa = waLink("Hi Humtoon! I'd love to create a custom toon. Here is my photo:");
