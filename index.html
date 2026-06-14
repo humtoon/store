@@ -94,7 +94,7 @@ header.bar{
 .bar-btn:active{transform:scale(.9)}
 .bar-btn.wa{background:var(--lav);color:#fff;font-size:18px;box-shadow:var(--shadow)}
 .bar-btn.wa:hover{background:var(--lav-dark)}
-.wordmark{font-size:23px;font-weight:700;letter-spacing:-.5px;cursor:pointer}
+.wordmark{font-size:23px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;cursor:pointer}
 .wordmark .oo{color:var(--lav)}
 
 main{flex:1;display:block}
@@ -163,11 +163,19 @@ main{flex:1;display:block}
 
 /* ============================ BEFORE/AFTER SLIDER ============================ */
 .ba-wrap{margin-top:4px}
+/* hero: slider pins while the page scrolls, vertical scroll sweeps the reveal.
+   JS translates the (absolutely-positioned) stage to fake sticky — real sticky
+   would bind to the overflow:hidden .hero/#shell instead of the viewport. */
+.ba-pin{position:relative}
+.ba-pin-stage{position:absolute;top:0;left:0;right:0;will-change:transform;backface-visibility:hidden}
 .ba{
   position:relative;width:100%;aspect-ratio:4/5;border-radius:var(--r-media);overflow:hidden;
   box-shadow:var(--shadow-lg);touch-action:none;user-select:none;-webkit-user-select:none;cursor:ew-resize;
   background:var(--tint);
 }
+/* scroll-driven slider: let the page scroll through it, no grab cursor */
+.ba.ba-scroll{touch-action:pan-y;cursor:default}
+.ba.ba-scroll .ba-knob{cursor:default}
 .ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .ba .ba-top{z-index:2}
 .ba .ba-divider{position:absolute;top:0;bottom:0;width:3px;background:#fff;left:50%;transform:translateX(-50%);z-index:3;box-shadow:0 0 12px rgba(0,0,0,.25)}
@@ -231,14 +239,8 @@ section{padding:26px 22px}
 .duo-imgs img{aspect-ratio:4/5;object-fit:cover;width:100%}
 .duo-imgs figcaption{position:absolute;left:8px;bottom:8px;background:#fff;font-weight:700;font-size:12px;padding:5px 10px;border-radius:var(--r-pill);box-shadow:var(--shadow)}
 
-/* REVEAL ROW — horizontal scroll driven by vertical page scroll (no left/right sliding) */
-.hpin{position:relative}
-.hpin-stage{position:sticky;top:0;overflow:hidden;margin:0 -22px;touch-action:pan-y}
-.hpin-track{display:flex;gap:16px;padding:10px 38% 26px;width:max-content;will-change:transform}
-.hpin-prog{position:absolute;left:22px;right:22px;bottom:8px;height:4px;border-radius:999px;background:var(--line);overflow:hidden}
-.hpin-prog i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,var(--lav),#9b7bff)}
-.reveal-card{flex:0 0 230px;background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:12px;box-shadow:var(--shadow);transform-origin:center center;will-change:transform,opacity;transition:box-shadow .3s var(--ease)}
-.reveal-card.is-active{box-shadow:var(--shadow-lg);border-color:var(--lav-chip)}
+/* REVEAL ROW */
+.reveal-card{scroll-snap-align:start;flex:0 0 230px;background:#fff;border:1px solid var(--line);border-radius:var(--r-card);padding:12px;box-shadow:var(--shadow)}
 .reveal-imgs{display:flex;align-items:center;gap:8px}
 .reveal-imgs .b{flex:0 0 64px;height:80px;border-radius:12px;object-fit:cover;filter:saturate(.9)}
 .reveal-imgs .arrow{color:var(--lav);font-size:20px;font-weight:700}
@@ -339,7 +341,7 @@ section{padding:26px 22px}
 
 /* ============================ FOOTER ============================ */
 footer.site{background:var(--ink);color:#fff;padding:30px 22px 26px;margin-top:8px}
-footer.site .wm{font-family:"Quicksand";font-weight:700;font-size:24px;letter-spacing:-.5px}
+footer.site .wm{font-family:"Quicksand";font-weight:700;font-size:24px;letter-spacing:.5px;text-transform:uppercase}
 footer.site .wm .oo{color:var(--lav)}
 footer.site .bl{font-family:"Newsreader";font-style:italic;color:#c8c4d4;font-size:14.5px;margin-top:6px}
 .foot-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:22px 0}
@@ -512,13 +514,14 @@ const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&g
 
 const reducedMotion = ()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function sliderHTML(before, after, hint){
+function sliderHTML(before, after, scroll){
+  const label = scroll ? "Scroll the page to reveal the finished toon" : "Drag to compare your photo with the finished toon";
   return `
-  <div class="ba" data-slider${hint?' data-hint="1"':''} role="slider" aria-label="Drag to compare your photo with the finished toon" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" tabindex="0">
+  <div class="ba${scroll?' ba-scroll':''}" data-slider${scroll?' data-scroll="1"':''} role="slider" aria-label="${label}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${scroll?0:50}" tabindex="0">
     <img class="ba-base" src="${IMG(after)}" alt="After — your custom toon" loading="lazy">
     <img class="ba-top" src="${IMG(before)}" alt="Before — your photo" loading="lazy">
     <div class="ba-divider"></div>
-    <div class="ba-knob" aria-hidden="true">⇄</div>
+    <div class="ba-knob" aria-hidden="true">${scroll?'↧':'⇄'}</div>
     <span class="lbl lbl-b">BEFORE</span>
     <span class="lbl lbl-a">AFTER</span>
   </div>`;
@@ -526,31 +529,32 @@ function sliderHTML(before, after, hint){
 function initSliders(root){
   $$("[data-slider]", root).forEach(ba=>{
     const top = $(".ba-top", ba), div = $(".ba-divider", ba), knob = $(".ba-knob", ba);
-    let pos = 50, dragging=false;
+    let pos = 50;
     const set = p => {
       pos=Math.max(0,Math.min(100,p));
       top.style.clipPath=`inset(0 ${100-pos}% 0 0)`; div.style.left=pos+"%"; knob.style.left=pos+"%";
       ba.setAttribute("aria-valuenow", Math.round(pos));
     };
+    ba.__set = set;                       // let the scroll driver position the divider
+    // keyboard accessibility (works for both modes)
+    ba.addEventListener("keydown", e=>{
+      if(e.key==="ArrowLeft"){ set(pos-5); e.preventDefault(); }
+      else if(e.key==="ArrowRight"){ set(pos+5); e.preventDefault(); }
+    });
+
+    if(ba.dataset.scroll){                // hero: reveal is driven by vertical scroll, not dragging
+      set(0);                             // start on the original photo
+      return;
+    }
+
+    // standard drag-to-compare slider
+    let dragging=false;
     const fromE = e => { const r=ba.getBoundingClientRect(); set((e.clientX-r.left)/r.width*100); };
     ba.addEventListener("pointerdown", e=>{dragging=true; ba.setPointerCapture(e.pointerId); fromE(e);});
     ba.addEventListener("pointermove", e=>{ if(dragging) fromE(e); });
     ba.addEventListener("pointerup", ()=>dragging=false);
     ba.addEventListener("pointercancel", ()=>dragging=false);
-    // keyboard accessibility
-    ba.addEventListener("keydown", e=>{
-      if(e.key==="ArrowLeft"){ set(pos-5); e.preventDefault(); }
-      else if(e.key==="ArrowRight"){ set(pos+5); e.preventDefault(); }
-    });
     set(50);
-    // one-time drag hint on the hero slider to teach the interaction
-    if(ba.dataset.hint && !window.__baHinted && !reducedMotion()){
-      window.__baHinted = true;
-      ba.classList.add("hinting");
-      const seq = [[63,1100],[38,1800],[50,2450]];
-      seq.forEach(([p,t])=>setTimeout(()=>set(p), t));
-      setTimeout(()=>ba.classList.remove("hinting"), 3100);
-    }
   });
 }
 
@@ -568,46 +572,52 @@ function initReveal(root){
   });
 }
 
-// "The reveal" gallery: vertical page scroll drives the horizontal track.
-// The user never slides left/right — the section pins while scrolling down.
-let _hpinCleanup = null;
-function initRevealScroll(root){
-  if(_hpinCleanup){ _hpinCleanup(); _hpinCleanup = null; }
-  const pin = $("[data-hpin]", root);
+// Hero before/after: vertical page scroll drives the reveal divider (no left/right dragging).
+// The slider pins in place while you scroll, sweeping from your photo → the finished toon.
+let _baCleanup = null;
+function initBaScroll(root){
+  if(_baCleanup){ _baCleanup(); _baCleanup = null; }
+  const pin = $("[data-ba-pin]", root);
   if(!pin) return;
-  const stage = $(".hpin-stage", pin), track = $(".hpin-track", pin);
+  const stage = $(".ba-pin-stage", pin), ba = $(".ba", pin);
+  if(!ba || !ba.__set) return;
 
-  if(reducedMotion()){             // accessible fallback: plain horizontal scroller
-    stage.style.overflowX = "auto";
-    stage.style.webkitOverflowScrolling = "touch";
+  if(reducedMotion()){          // no scroll-jacking when motion is reduced — just show the toon
+    stage.style.position = "static";
     pin.style.height = "auto";
+    ba.__set(100);
     return;
   }
 
-  let maxShift = 0, pinTop = 0, top = 0, raf = 0;
+  let sweep = 0, pinTop = 0, stick = 64, raf = 0;
   function measure(){
+    stage.style.transform = "none";                 // measure natural height un-translated
     const stageH = stage.offsetHeight;
-    top = Math.max(12, (window.innerHeight - stageH) / 2); // center the pinned stage
-    stage.style.top = top + "px";
-    maxShift = Math.max(0, track.scrollWidth - stage.clientWidth);
-    pin.style.height = (stageH + maxShift) + "px"; // 1px down = 1px across
+    // hold the slider centred in the viewport (but never under the header) while it's frozen
+    stick = Math.max(64, Math.round((window.innerHeight - stageH) / 2));
+    // length of vertical scroll the freeze consumes before the page moves on again
+    sweep = Math.round(window.innerHeight * 0.8);
+    pin.style.height = (stageH + sweep) + "px";
     pinTop = pin.getBoundingClientRect().top + window.scrollY;
     update();
   }
   function update(){
-    if(maxShift <= 0){ track.style.transform = "none"; return; }
-    let p = (window.scrollY - (pinTop - top)) / maxShift;
-    p = p < 0 ? 0 : p > 1 ? 1 : p;
-    track.style.transform = `translate3d(${-(p * maxShift).toFixed(2)}px,0,0)`;
+    if(sweep <= 0){ return; }
+    // translate the stage to keep it parked at viewport `stick` while frozen, so the page
+    // appears to stop and the same scroll gesture drives the reveal 0→100 (and back on the way up)
+    let y = window.scrollY + stick - pinTop;
+    y = y < 0 ? 0 : y > sweep ? sweep : y;
+    stage.style.transform = `translate3d(0,${y}px,0)`;
+    ba.__set(y / sweep * 100);
   }
   const onScroll = ()=>{ if(raf) return; raf = requestAnimationFrame(()=>{ raf = 0; update(); }); };
   const onResize = ()=> measure();
   window.addEventListener("scroll", onScroll, {passive:true});
   window.addEventListener("resize", onResize);
-  _hpinCleanup = ()=>{ window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onResize); };
-  $$("img", track).forEach(im=>{ if(!im.complete) im.addEventListener("load", measure, {once:true}); });
+  _baCleanup = ()=>{ window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onResize); cancelAnimationFrame(raf); };
+  $$("img", ba).forEach(im=>{ if(!im.complete) im.addEventListener("load", measure, {once:true}); });
   measure();
-  setTimeout(measure, 700); // re-measure once the section's reveal animation settles
+  setTimeout(measure, 700); // re-measure once the hero's reveal animation settles
 }
 
 function productCard(p){
@@ -635,9 +645,13 @@ function homeHTML(){
       <span class="eyebrow"><span class="dot"></span> 50+ memories toonified</span>
       <h1 class="q">Turn your favorite memories into <span class="lav">everyday art.</span></h1>
       <p class="sub">Highly detailed 2D custom toons — for your desk &amp; your fridge.</p>
-      <div class="ba-wrap">
-        ${sliderHTML("solo-graduation-original.jpeg","solo-graduation-humtoon.jpeg", true)}
-        <p class="ba-cap">drag to reveal the toon ✨</p>
+      <div class="ba-pin" data-ba-pin>
+        <div class="ba-pin-stage">
+          <div class="ba-wrap">
+            ${sliderHTML("solo-graduation-original.jpeg","solo-graduation-humtoon.jpeg", true)}
+            <p class="ba-cap">scroll to reveal the toon ✨</p>
+          </div>
+        </div>
       </div>
       <div class="hero-btns">
         <button class="btn btn-pri" data-nav="shop">Create your Humtoon</button>
@@ -675,22 +689,18 @@ function homeHTML(){
       </div>
     </section>
 
-    <section class="reveal-sec">
+    <section>
       <div class="sec-head"><h2 class="q">The reveal</h2></div>
-      <p style="color:var(--muted);font-size:14.5px;margin:-8px 0 14px">Real photos → real toons. <span style="color:var(--faint)">scroll to play ↓</span></p>
-      <div class="hpin" data-hpin>
-        <div class="hpin-stage">
-          <div class="hpin-track">${TRANSFORMS.map(t=>`
-            <div class="reveal-card">
-              <div class="reveal-imgs">
-                <img class="b" src="${IMG(t.b)}" alt="before" loading="lazy">
-                <span class="arrow">→</span>
-                <img class="a" src="${IMG(t.a)}" alt="after" loading="lazy">
-              </div>
-              <div class="rl q">${esc(t.l)}</div>
-            </div>`).join("")}</div>
-        </div>
-      </div>
+      <p style="color:var(--muted);font-size:14.5px;margin:-8px 0 14px">Real photos → real toons.</p>
+      <div class="scroller no-scrollbar">${TRANSFORMS.map(t=>`
+        <div class="reveal-card">
+          <div class="reveal-imgs">
+            <img class="b" src="${IMG(t.b)}" alt="before" loading="lazy">
+            <span class="arrow">→</span>
+            <img class="a" src="${IMG(t.a)}" alt="after" loading="lazy">
+          </div>
+          <div class="rl q">${esc(t.l)}</div>
+        </div>`).join("")}</div>
     </section>
 
     <section class="reviews-sec">
@@ -872,7 +882,7 @@ function render(){
 
   initSliders(app);
   initReveal(app);
-  initRevealScroll(app);
+  initBaScroll(app);
   if(state.screen==="product") wireProduct();
   $("#footer").style.display = state.screen==="product" ? "none" : "block"; // sticky bar owns product bottom
   window.scrollTo({top:0,behavior:"instant"});
