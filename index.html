@@ -74,7 +74,7 @@ a{color:inherit;text-decoration:none}
   position:relative;
   display:flex;
   flex-direction:column;
-  overflow:hidden;
+  overflow:clip; /* clip (not hidden) so it isn't a scroll container — keeps position:sticky bound to the viewport */
 }
 header.bar{
   position:sticky;top:0;z-index:40;
@@ -139,7 +139,7 @@ main{flex:1;display:block}
 .btn-block{width:100%}
 
 /* ============================ HERO ============================ */
-.hero{background:linear-gradient(180deg,#f6f3fb,#fcfbfe);padding:26px 22px 30px;position:relative;overflow:hidden}
+.hero{background:linear-gradient(180deg,#f6f3fb,#fcfbfe);padding:26px 22px 30px;position:relative;overflow:clip}
 .hero::before{content:"";position:absolute;top:-120px;right:-90px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(122,90,240,.22),transparent 70%);filter:blur(8px);pointer-events:none;z-index:0}
 .hero::after{content:"";position:absolute;bottom:-60px;left:-80px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(255,206,58,.18),transparent 70%);pointer-events:none;z-index:0}
 .hero>*{position:relative;z-index:1}
@@ -163,12 +163,11 @@ main{flex:1;display:block}
 
 /* ============================ BEFORE/AFTER SLIDER ============================ */
 .ba-wrap{margin-top:4px}
-/* hero: slider pins while the page scrolls, vertical scroll sweeps the reveal.
-   JS toggles the stage to position:fixed for the frozen phase so the BROWSER
-   pins it (compositor, jitter-free) — real sticky would bind to the
-   overflow:hidden .hero/#shell instead of the viewport. */
+/* hero: slider pins (position:sticky → compositor-driven, jitter-free) while the page
+   scrolls; JS only eases the reveal. Works because .hero/#shell use overflow:clip,
+   not hidden, so they don't capture the sticky. JS sets `top` (the park offset). */
 .ba-pin{position:relative}
-.ba-pin-stage{position:absolute;top:0;left:0;right:0;backface-visibility:hidden}
+.ba-pin-stage{position:sticky;backface-visibility:hidden}
 .ba{
   position:relative;width:100%;aspect-ratio:4/5;border-radius:var(--r-media);overflow:hidden;
   box-shadow:var(--shadow-lg);touch-action:none;user-select:none;-webkit-user-select:none;cursor:ew-resize;
@@ -580,11 +579,13 @@ function sliderHTML(before, after, scroll){
 function initSliders(root){
   $$("[data-slider]", root).forEach(ba=>{
     const top = $(".ba-top", ba), div = $(".ba-divider", ba), knob = $(".ba-knob", ba);
-    let pos = 50;
+    let pos = 50, aria = -1;
     const set = p => {
       pos=Math.max(0,Math.min(100,p));
-      top.style.clipPath=`inset(0 ${100-pos}% 0 0)`; div.style.left=pos+"%"; knob.style.left=pos+"%";
-      ba.setAttribute("aria-valuenow", Math.round(pos));
+      const v=pos.toFixed(2);
+      top.style.clipPath=`inset(0 ${(100-pos).toFixed(2)}% 0 0)`; div.style.left=v+"%"; knob.style.left=v+"%";
+      const r=Math.round(pos);
+      if(r!==aria){ aria=r; ba.setAttribute("aria-valuenow", r); } // avoid per-frame attribute churn
     };
     ba.__set = set;                       // let the scroll driver position the divider
     // keyboard accessibility (works for both modes)
@@ -640,28 +641,35 @@ function initBaScroll(root){
     return;
   }
 
-  let sweep = 0, pinTop = 0, stick = 64, raf = 0;
+  let sweep = 0, stick = 64, start = 0;
+  let target = 0, shown = 0, raf = 0, looping = false;
+
   function measure(){
-    stage.style.transform = "none";                 // measure natural height un-translated
     const stageH = stage.offsetHeight;
-    // hold the slider centred in the viewport (but never under the header) while it's frozen
+    // park the slider centred in the viewport (never under the header) while it's frozen
     stick = Math.max(64, Math.round((window.innerHeight - stageH) / 2));
-    // length of vertical scroll the freeze consumes before the page moves on again
-    sweep = Math.round(window.innerHeight * 0.8);
+    stage.style.top = stick + "px";            // the sticky offset — browser pins it here
+    sweep = Math.round(window.innerHeight * 0.7); // vertical scroll distance the freeze lasts
     pin.style.height = (stageH + sweep) + "px";
-    pinTop = pin.getBoundingClientRect().top + window.scrollY;
-    update();
+    start = pin.getBoundingClientRect().top + window.scrollY - stick; // scrollY where the freeze begins
+    place(); shown = target; ba.__set(shown);  // snap (no easing) on (re)measure
   }
-  function update(){
-    if(sweep <= 0){ return; }
-    // translate the stage to keep it parked at viewport `stick` while frozen, so the page
-    // appears to stop and the same scroll gesture drives the reveal 0→100 (and back on the way up)
-    let y = window.scrollY + stick - pinTop;
-    y = y < 0 ? 0 : y > sweep ? sweep : y;
-    stage.style.transform = `translate3d(0,${y}px,0)`;
-    ba.__set(y / sweep * 100);
+  function place(){
+    if(sweep <= 0){ target = 0; return; }
+    const p = (window.scrollY - start) / sweep; // 0 when freeze starts → 1 when it ends
+    target = (p < 0 ? 0 : p > 1 ? 1 : p) * 100;
   }
-  const onScroll = ()=>{ if(raf) return; raf = requestAnimationFrame(()=>{ raf = 0; update(); }); };
+  // ease the reveal toward the scroll target so coarse wheel/trackpad steps glide — the butter.
+  // (the pin itself is browser-driven via position:sticky, so this never affects the slider's position)
+  function tick(){
+    shown += (target - shown) * 0.2;
+    if(Math.abs(target - shown) < 0.12){ shown = target; ba.__set(shown); looping = false; return; }
+    ba.__set(shown);
+    raf = requestAnimationFrame(tick);
+  }
+  function loop(){ if(!looping){ looping = true; raf = requestAnimationFrame(tick); } }
+
+  const onScroll = ()=>{ place(); loop(); };
   const onResize = ()=> measure();
   window.addEventListener("scroll", onScroll, {passive:true});
   window.addEventListener("resize", onResize);
