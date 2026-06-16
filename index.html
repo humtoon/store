@@ -164,10 +164,11 @@ main{flex:1;display:block}
 /* ============================ BEFORE/AFTER SLIDER ============================ */
 .ba-wrap{margin-top:4px}
 /* hero: slider pins while the page scrolls, vertical scroll sweeps the reveal.
-   JS translates the (absolutely-positioned) stage to fake sticky — real sticky
-   would bind to the overflow:hidden .hero/#shell instead of the viewport. */
+   JS toggles the stage to position:fixed for the frozen phase so the BROWSER
+   pins it (compositor, jitter-free) — real sticky would bind to the
+   overflow:hidden .hero/#shell instead of the viewport. */
 .ba-pin{position:relative}
-.ba-pin-stage{position:absolute;top:0;left:0;right:0;will-change:transform;backface-visibility:hidden}
+.ba-pin-stage{position:absolute;top:0;left:0;right:0;backface-visibility:hidden}
 .ba{
   position:relative;width:100%;aspect-ratio:4/5;border-radius:var(--r-media);overflow:hidden;
   box-shadow:var(--shadow-lg);touch-action:none;user-select:none;-webkit-user-select:none;cursor:ew-resize;
@@ -178,6 +179,7 @@ main{flex:1;display:block}
 .ba.ba-scroll .ba-knob{cursor:default}
 .ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .ba .ba-top{z-index:2}
+.ba.ba-scroll .ba-top{will-change:clip-path}   /* own layer → smooth clip repaint during the reveal */
 .ba .ba-divider{position:absolute;top:0;bottom:0;width:3px;background:#fff;left:50%;transform:translateX(-50%);z-index:3;box-shadow:0 0 12px rgba(0,0,0,.25)}
 .ba .ba-knob{
   position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:4;
@@ -467,8 +469,8 @@ const PRODUCTS = [
     blurb:"Both of you hand-drawn together on a single piece. The cutest two-in-one for couples.",
     after:"duo-attached-black-humtoon.jpeg", before:"duo-attached-black-original.jpeg",
     gallery:["duo-attached-black-humtoon.jpeg","duo-attached-mauve-combo.jpeg","duo-attached-pink-combo.jpeg","duo-attached-teal-humtoon.jpeg"] },
-  { id:"family_squad", name:"The Family / Squad Pack", tagline:"Bring the whole fam to your desk.", cat:"family", people:"4+ people",
-    price:"From ₹1,600", priceNum:1600, badge:"1 combined piece", hot:null,
+  { id:"family_squad", name:"The Family / Squad Pack", tagline:"Bring the whole fam to your desk.", cat:"family", people:"3–7 people",
+    price:"From ₹1,500", priceNum:1500, badge:"1 combined piece", hot:null,
     blurb:"The whole crew on one combined toon. Base covers 4 people; add as many as you like.",
     after:"family-temple-humtoon.jpeg", before:"family-temple-original.jpeg",
     gallery:["family-temple-humtoon.jpeg","squad-boys-humtoon.jpeg","family-temple-original.jpeg","squad-boys-original.jpeg"] },
@@ -552,7 +554,7 @@ const state = { screen:"home", productId:null, cat:"all" };
 const productState = {}; // per-product: {img, people}
 
 function getPS(id){
-  if(!productState[id]) productState[id] = {img:0, people:4};
+  if(!productState[id]) productState[id] = {img:0, people:3};
   return productState[id];
 }
 
@@ -791,7 +793,7 @@ function shopHTML(){
 
 function displayPrice(p, ps){
   if(p.id==="family_squad" && p.priceNum){
-    return "₹" + (p.priceNum + (ps.people-4)*100).toLocaleString("en-IN");
+    return "₹" + (p.priceNum + (ps.people-3)*100).toLocaleString("en-IN");
   }
   return p.price;
 }
@@ -827,7 +829,7 @@ function productHTML(p){
       <span class="cnt q" id="ppl">${ps.people}</span>
       <button data-step="1">+</button>
     </div>
-    <p class="helper" id="pplHelp">Base covers 4 · +₹100 each extra (+₹${(ps.people-4)*100})</p>`:""}
+    <p class="helper" id="pplHelp">Base covers 3 (max 7) · +₹100 each extra (+₹${(ps.people-3)*100})</p>`:""}
 
     <div class="field-label q">The transformation</div>
     ${sliderHTML(p.before, p.after)}
@@ -987,9 +989,9 @@ function wireProduct(){
 
   // stepper
   $$("[data-step]").forEach(b=>b.addEventListener("click",()=>{
-    ps.people = Math.max(4, Math.min(15, ps.people + (+b.dataset.step)));
+    ps.people = Math.max(3, Math.min(7, ps.people + (+b.dataset.step)));
     $("#ppl").textContent = ps.people;
-    $("#pplHelp").textContent = `Base covers 4 · +₹100 each extra (+₹${(ps.people-4)*100})`;
+    $("#pplHelp").textContent = `Base covers 3 (max 7) · +₹100 each extra (+₹${(ps.people-3)*100})`;
     const dp = displayPrice(p, ps);
     $("#buyPrice").textContent = dp;
     const tp = $("#titlePrice"); if(tp) tp.textContent = dp;
