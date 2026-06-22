@@ -520,12 +520,16 @@ const CATS = [["all","All"],["baby","Babies"],["couple","Couple"],["family","Gro
 
 
 const FAQS = [
-  {q:"How long does it take?", a:"Production 5–7 days after you place your order, plus 3–5 days shipping across India."},
-  {q:"Single person vs bundle?", a:"Solo = one toon. Duo Bundle = two separate toons. Attached Duo = both on one base. Family/Squad = one combined piece."},
-  {q:"What's it made of?", a:"Premium acrylic with vivid, fade-resistant printing — built to last on your desk and your fridge."},
-  {q:"Standee or fridge magnet?", a:"Both — it's one product, two ways to show it off. Each Humtoon is premium acrylic you can stand on your desk and stick on your fridge."},
-  {q:"Which photo works best?", a:"Good daylight, clear high-contrast background, eye-level angle. See the Photo Guide."},
-  {q:"Do you ship everywhere?", a:"Yes, pan-India. For international, DM on Instagram or WhatsApp."},
+  {q:"Duo Bundle or Attached Duo — what's the difference?", a:"The **Duo Bundle** is two separate pieces — **2 standees and 2 magnets**, one for each person. The **Attached Duo** puts both of you together on a single couple piece — **1 standee and 1 magnet**."},
+  {q:"What sizes do Humtoons come in?", a:"Three sizes: **Lil' Toon (5 in)**, the **Standard Humtoon (6 in)**, and the **Family Pack (6.5 in)**."},
+  {q:"Do I get both a desk standee and a fridge magnet?", a:"**Yes — every order is a 2-in-1.** You get the desk standee plus a matching 2-inch fridge magnet, **no extra cost**."},
+  {q:"Will it just look like a printed photo?", a:"**Not at all.** Every Humtoon is a custom 2D caricature, **hand-drawn from your photo**. We capture your features, hair, and outfit in our signature toon style."},
+  {q:"Can I add my own text at the bottom?", a:"**Absolutely.** Add names, a date, or a short message to the base — it's your piece, made your way."},
+  {q:"What is a Humtoon made of?", a:"**Premium high-gloss acrylic** — durable, crystal-clear, and built to look great for years."},
+  {q:"Where can the magnet stick besides the fridge?", a:"**Anywhere magnetic** — your fridge, CPU cabinet, metal shelves, and more. It **won't** grip wood, glass, or plastic."},
+  {q:"Is delivery included in the price?", a:"**Yes — free delivery is built in.** The price you see is the price you pay, nothing extra at checkout."},
+  {q:"How early should I order?", a:"Since each piece is drawn by hand, please order **at least 7 days ahead** so we have time to get it perfect."},
+  {q:"Do you take bulk orders?", a:"**We do!** Reach out via our contact page for custom pricing on **events and corporate gifting**."},
 ];
 
 /* ============================ PRICING ============================ */
@@ -577,6 +581,8 @@ function getPS(id){
 const $ = (s,r=document)=>r.querySelector(s);
 const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+// Rich text for FAQ answers: escape first, then turn **text** into bold.
+const fmtRich = s => esc(s).replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
 
 const reducedMotion = ()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -928,7 +934,7 @@ function faqHTML(){
     <div style="margin-top:20px">${FAQS.map((f,i)=>`
       <div class="faq-item${i===0?" open":""}" data-faq="${i}">
         <button class="faq-q"><span>${esc(f.q)}</span><span class="pm">${i===0?"–":"+"}</span></button>
-        <div class="faq-a"><div class="inner">${esc(f.a)}</div></div>
+        <div class="faq-a"><div class="inner">${fmtRich(f.a)}</div></div>
       </div>`).join("")}</div>
     <div class="contact-card">
       <h3 class="q">Still have a question?</h3>
