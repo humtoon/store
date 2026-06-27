@@ -33,6 +33,8 @@
   --yellow-soft:#fff4cf;
   --green:#3fb27f;
   --star:#ffb400;
+  --wa:#25d366;
+  --wa-dark:#1da851;
   --shadow:0 8px 22px -16px rgba(40,20,80,.45);
   --shadow-lg:0 18px 44px -22px rgba(40,20,80,.55);
   --r-card:20px; --r-media:24px; --r-btn:14px; --r-pill:999px;
@@ -92,9 +94,9 @@ header.bar{
   transition:background .18s, transform .12s;
 }
 .bar-btn:active{transform:scale(.9)}
-.bar-btn.wa{background:var(--lav);color:#fff;font-size:18px;box-shadow:var(--shadow)}
-.bar-btn.wa:hover{background:var(--lav-dark)}
-.bar-btn.wa svg{width:20px;height:20px;fill:currentColor}
+.bar-btn.wa{background:var(--wa);color:#fff;box-shadow:0 6px 16px -8px rgba(37,211,102,.7)}
+.bar-btn.wa:hover{background:var(--wa-dark)}
+.bar-btn.wa svg{width:21px;height:21px;fill:currentColor}
 .wordmark{font-size:23px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;cursor:pointer}
 .wordmark .oo{color:var(--lav)}
 
@@ -119,10 +121,12 @@ main{flex:1;display:block}
 #drawer nav a{padding:15px 6px;font-size:19px;font-weight:600;border-bottom:1px solid var(--line);transition:color .15s,padding-left .15s}
 #drawer nav a:hover{color:var(--lav);padding-left:12px}
 .drawer-foot{margin-top:auto;display:flex;gap:10px}
-.drawer-foot a{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:var(--r-btn);font-weight:700;font-size:14px}
+.drawer-foot a{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:var(--r-btn);font-weight:700;font-size:14px;transition:transform .12s,filter .18s}
+.drawer-foot a:active{transform:scale(.96)}
+.drawer-foot a:hover{filter:brightness(1.06)}
 .drawer-foot a svg{width:18px;height:18px;fill:currentColor;flex:0 0 auto}
-.df-ig{background:linear-gradient(135deg,#feda75,#fa7e1e 28%,#d62976 56%,#962fbf 78%,#4f5bd5);color:#fff}
-.df-wa{background:#25D366;color:#fff}
+.df-ig{background:#fff;border:1px solid var(--line);color:var(--ink);box-shadow:0 8px 18px -12px rgba(40,20,80,.35)}
+.df-wa{background:var(--wa);color:#fff;box-shadow:0 8px 18px -10px rgba(37,211,102,.55)}
 
 /* ============================ BUTTONS ============================ */
 .btn{
@@ -328,9 +332,11 @@ section{padding:26px 22px}
 .buybar .pinfo .p{font-family:"Quicksand";font-weight:700;font-size:18px}
 .buybar .pinfo .f{font-size:11.5px;color:var(--muted)}
 .buybar .btn{flex:1;padding:14px 12px;font-size:15px}
-.buybar .ig{flex:0 0 48px;width:48px;height:48px;border-radius:13px;background:linear-gradient(135deg,#feda75,#fa7e1e 28%,#d62976 56%,#962fbf 78%,#4f5bd5);color:#fff;display:grid;place-items:center}
-.buybar .ig svg{width:22px;height:22px;fill:currentColor}
-.cbtns svg,#orderBtn svg{width:18px;height:18px;fill:currentColor;flex:0 0 auto;vertical-align:-3px}
+.buybar .ig{flex:0 0 48px;width:48px;height:48px;border-radius:13px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;box-shadow:var(--shadow);transition:transform .12s,filter .18s}
+.buybar .ig:active{transform:scale(.94)}
+.buybar .ig:hover{filter:brightness(1.04)}
+.buybar .ig .ig-logo{width:28px;height:28px}
+#orderBtn svg{width:18px;height:18px;fill:currentColor;flex:0 0 auto}
 
 /* ============================ GUIDE & FAQ ============================ */
 .shots{background:var(--lav-chip);border-radius:var(--r-card);padding:18px;margin-top:18px}
@@ -356,9 +362,16 @@ section{padding:26px 22px}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;font-size:14px;color:var(--muted)}
 .faq-a .inner{padding:0 16px 16px}
 .faq-item.open .faq-a{max-height:240px}
-.contact-card{background:var(--lav-chip);border-radius:var(--r-card);padding:20px;text-align:center;margin-top:8px}
+.contact-card{background:linear-gradient(160deg,#fff,var(--lav-chip));border:1px solid var(--line);border-radius:var(--r-card);padding:24px 20px;text-align:center;margin-top:18px;box-shadow:var(--shadow)}
 .contact-card h3{font-family:"Quicksand";font-weight:700;font-size:18px}
-.contact-card .cbtns{display:flex;gap:10px;margin-top:14px}
+.contact-card .cbtns{display:flex;gap:10px;margin-top:16px}
+.cbtn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px;border-radius:var(--r-btn);font-family:"Quicksand";font-weight:700;font-size:15px;color:#fff;transition:transform .12s,filter .18s}
+.cbtn:active{transform:scale(.96)}
+.cbtn:hover{filter:brightness(1.06)}
+.cbtn svg{width:18px;height:18px;fill:currentColor;flex:0 0 auto}
+.cbtn-wa{background:var(--wa);box-shadow:0 12px 24px -12px rgba(37,211,102,.65)}
+.cbtn-ig{background:#fff;border:1px solid var(--line);color:var(--ink);box-shadow:0 12px 24px -14px rgba(40,20,80,.4)}
+.ig-logo{flex:0 0 auto;display:block;width:19px;height:19px}
 
 /* ============================ FOOTER ============================ */
 footer.site{background:var(--ink);color:#fff;padding:32px 22px 26px;margin-top:8px}
@@ -380,8 +393,8 @@ footer.site .wm .oo{color:var(--lav)}
 .foot-btns a:active{transform:scale(.96)}
 .foot-btns a:hover{filter:brightness(1.07)}
 .foot-btns a svg{width:18px;height:18px;fill:currentColor;flex:0 0 auto}
-.fb-ig{background:linear-gradient(135deg,#feda75,#fa7e1e 28%,#d62976 56%,#962fbf 78%,#4f5bd5);color:#fff}
-.fb-wa{background:#25D366;color:#fff}
+.fb-ig{background:#fff;color:var(--ink)}
+.fb-wa{background:var(--wa);color:#fff}
 .copyright{font-size:12px;color:#84808f;margin-top:24px;line-height:1.6;border-top:1px solid #2a2733;padding-top:18px}
 
 /* ============================ POLICY SHEET ============================ */
@@ -415,7 +428,7 @@ footer.site .wm .oo{color:var(--lav)}
   <header class="bar">
     <button class="bar-btn" id="navBtn" aria-label="Menu">☰</button>
     <div class="wordmark q" data-nav="home">humt<span class="oo">oo</span>n</div>
-    <a class="bar-btn wa" id="headerWa" aria-label="WhatsApp" target="_blank" rel="noopener">💬</a>
+    <a class="bar-btn wa" id="headerWa" aria-label="WhatsApp" target="_blank" rel="noopener"></a>
   </header>
   <main id="app"></main>
   <footer class="site" id="footer"></footer>
@@ -434,8 +447,8 @@ footer.site .wm .oo{color:var(--lav)}
     <a data-nav="faq">FAQ</a>
   </nav>
   <div class="drawer-foot">
-    <a class="df-ig" href="https://instagram.com/humtoon.store" target="_blank" rel="noopener">📷 Instagram</a>
-    <a class="df-wa" id="drawerWa" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <a class="df-ig" href="https://instagram.com/humtoon.store" target="_blank" rel="noopener">Instagram</a>
+    <a class="df-wa" id="drawerWa" target="_blank" rel="noopener">WhatsApp</a>
   </div>
 </aside>
 
@@ -452,7 +465,7 @@ const IG = "https://instagram.com/humtoon.store";
 const IMG = f => "images/" + f;
 
 // Brand icons (Simple Icons paths) — inline so they inherit currentColor
-const IG_SVG = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.242 1.308 3.608.058 1.266.069 1.646.069 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.242-1.308-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.974-.974 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0 1.802c-3.15 0-3.522.012-4.764.069-1.15.052-1.774.244-2.19.405-.55.214-.943.469-1.356.882-.413.413-.668.806-.882 1.356-.161.416-.353 1.04-.405 2.19-.057 1.242-.069 1.614-.069 4.764s.012 3.522.069 4.764c.052 1.15.244 1.774.405 2.19.214.55.469.943.882 1.356.413.413.806.668 1.356.882.416.161 1.04.353 2.19.405 1.242.057 1.614.069 4.764.069s3.522-.012 4.764-.069c1.15-.052 1.774-.244 2.19-.405.55-.214.943-.469 1.356-.882.413-.413.668-.806.882-1.356.161-.416.353-1.04.405-2.19.057-1.242.069-1.614.069-4.764s-.012-3.522-.069-4.764c-.052-1.15-.244-1.774-.405-2.19-.214-.55-.469-.943-.882-1.356-.413-.413-.806-.668-1.356-.882-.416-.161-1.04-.353-2.19-.405-1.242-.057-1.614-.069-4.764-.069zm0 3.064A5.135 5.135 0 1 0 12 17.135 5.135 5.135 0 0 0 12 6.865zm0 8.468A3.333 3.333 0 1 1 12 8.667a3.333 3.333 0 0 1 0 6.666zm6.538-8.671a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z"/></svg>`;
+const IG_IMG = `<img class="ig-logo" src="images/instagram-logo.svg" alt="" aria-hidden="true">`;
 const WA_SVG = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>`;
 
 // Customer-support policies shown in the footer bottom-sheet
@@ -894,8 +907,8 @@ function productHTML(p){
   </div>
   <div class="buybar">
     <div class="pinfo"><div class="p q" id="buyPrice">${esc(displayPrice(p,ps))}</div><div class="f">🪑 Desk · 🧲 Fridge</div></div>
-    <a class="btn btn-pri" id="orderBtn" target="_blank" rel="noopener">Order on WhatsApp</a>
-    <a class="ig" href="${IG}" target="_blank" rel="noopener" aria-label="Instagram">${IG_SVG}</a>
+    <a class="btn btn-pri" id="orderBtn" target="_blank" rel="noopener">${WA_SVG} Order on WhatsApp</a>
+    <a class="ig" href="${IG}" target="_blank" rel="noopener" aria-label="Instagram">${IG_IMG}</a>
   </div>`;
 }
 
@@ -943,8 +956,8 @@ function faqHTML(){
       <h3 class="q">Still have a question?</h3>
       <p style="color:var(--muted);font-size:14px;margin-top:4px">We usually reply within a few hours.</p>
       <div class="cbtns">
-        <a class="btn btn-pri" style="flex:1" href="${waLink("Hi Humtoon! I have a question:")}" target="_blank" rel="noopener">💬 WhatsApp</a>
-        <a class="btn btn-out" style="flex:1" href="${IG}" target="_blank" rel="noopener">📷 Instagram</a>
+        <a class="cbtn cbtn-wa" href="${waLink("Hi Humtoon! I have a question:")}" target="_blank" rel="noopener">${WA_SVG} WhatsApp</a>
+        <a class="cbtn cbtn-ig" href="${IG}" target="_blank" rel="noopener">${IG_IMG} Instagram</a>
       </div>
     </div>
   </div>`;
@@ -978,7 +991,7 @@ function footerHTML(){
     <div class="foot-social">
       <span class="foot-social-label">Let's be friends 💛</span>
       <div class="foot-btns">
-        <a class="fb-ig" href="${IG}" target="_blank" rel="noopener" aria-label="Follow us on Instagram">${IG_SVG} Instagram</a>
+        <a class="fb-ig" href="${IG}" target="_blank" rel="noopener" aria-label="Follow us on Instagram">${IG_IMG} Instagram</a>
         <a class="fb-wa" href="${waLink("Hi Humtoon! I'd love to create a custom toon.")}" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">${WA_SVG} WhatsApp</a>
       </div>
     </div>
@@ -1096,7 +1109,7 @@ $("#drawerWa").href = genericWa;
 // brand icons (real SVGs) into static header + drawer chrome
 $("#headerWa").innerHTML = WA_SVG;
 $("#drawerWa").innerHTML = WA_SVG + " WhatsApp";
-$(".df-ig").innerHTML = IG_SVG + " Instagram";
+$(".df-ig").innerHTML = IG_IMG + " Instagram";
 
 render();
 loadPrices(); // pull live prices from products.json (source of truth)
