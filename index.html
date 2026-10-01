@@ -516,6 +516,21 @@ const PRODUCTS = [
     blurb:"Freeze the tiny days forever. A keepsake toon of your little one — standee or named fridge magnet.",
     after:"lil-swara-humtoon.jpeg", before:"lil-swara-original.jpeg",
     gallery:["lil-swara-humtoon.jpeg","lil-pinak-humtoon.jpeg","lil-sweetworld-humtoon-magnet.jpeg","lil-swara-original.jpeg"] },
+  { id:"frame", name:"The Humtoon Frame", tagline:"Your toon, framed forever.", cat:"frame", people:"1–3+",
+    price:"₹1,200", priceNum:1200, badge:"Mini & Large", hot:"New",
+    blurb:"A premium acrylic photo frame with your favourite people toonified, a personal quote, names and hearts. Available in Mini and Large.",
+    after:"frame-large-humtoon.jpeg", before:"frame-mini-humtoon.jpeg",
+    gallery:["frame-large-humtoon.jpeg","frame-mini-humtoon.jpeg"] },
+  { id:"humsip", name:"The HumSip", tagline:"Sip in style, your way.", cat:"drinkware", people:"1 person",
+    price:"₹950", priceNum:950, badge:"Custom name", hot:"New",
+    blurb:"A personalised sipper bottle featuring your toonified character, custom name, and a fun themed pattern. Perfect for kids and grown-ups.",
+    after:"humsip-boy-humtoon.jpeg", before:"humsip-girl-customer.jpeg",
+    gallery:["humsip-boy-humtoon.jpeg","humsip-girl-customer.jpeg"] },
+  { id:"hamper", name:"The Customisable Hamper", tagline:"Gift a full experience.", cat:"hamper", people:"1 person",
+    price:"₹2,500", priceNum:2500, badge:"All-in-one gift", hot:"New",
+    blurb:"A curated gift hamper with a personalised HumSip bottle, a tumbler, premium chocolates, a toy and more — all inside a beautiful box. The ultimate gifting experience.",
+    after:"hamper-humtoon.jpeg", before:"hamper-humtoon.jpeg",
+    gallery:["hamper-humtoon.jpeg"] },
 ];
 
 const TRANSFORMS = [
@@ -533,7 +548,7 @@ const REVIEWS = [
   {img:"duo-bundle-brownsage-combo.jpeg", name:"Dhruv & Harshita", role:"Duo Bundle", q:"The lilttle intricate details in our outfits are perfect. We love it!"},
 ];
 
-const CATS = [["all","All"],["baby","Babies"],["couple","Couple"],["family","Group"],["solo","Solo"],["pet","Pets"]];
+const CATS = [["all","All"],["baby","Babies"],["couple","Couple"],["family","Group"],["solo","Solo"],["pet","Pets"],["frame","Frames"],["drinkware","Drinkware"],["hamper","Hampers"]];
 
 
 const FAQS = [
@@ -790,6 +805,8 @@ function homeHTML(){
         <div class="gift-card"><div class="gi">🐾</div><h3 class="q">Pet love</h3><p>your best friend, forever</p></div>
         <div class="gift-card"><div class="gi">🎓</div><h3 class="q">Graduation</h3><p>mark the milestone</p></div>
         <div class="gift-card"><div class="gi">🪢</div><h3 class="q">Rakhi &amp; festivals</h3><p>for the family group</p></div>
+        <div class="gift-card"><div class="gi">🖼️</div><h3 class="q">Photo frame</h3><p>a toon in a frame</p></div>
+        <div class="gift-card"><div class="gi">🎁</div><h3 class="q">Gift hamper</h3><p>the ultimate bundle</p></div>
       </div>
     </section>
 
@@ -842,7 +859,7 @@ function homeHTML(){
   </div>`;
 }
 function marqueeItems(){
-  return `<span>★ 4.9 / 5 rating</span><span>🎨 Hand-drawn artists</span><span>🚚 Pan-India shipping</span><span>💎 Premium acrylic</span><span>📦 50+ happy toons</span>`;
+  return `<span>★ 4.9 / 5 rating</span><span>🎨 Hand-drawn artists</span><span>🚚 Pan-India shipping</span><span>💎 Premium acrylic</span><span>📦 50+ happy toons</span><span>🥤 NEW: HumSip bottles</span><span>🖼️ NEW: Toon Frames</span><span>🎁 NEW: Gift Hampers</span>`;
 }
 
 function shopHTML(){
@@ -883,8 +900,8 @@ function productHTML(p){
 
     <p class="blurb">${esc(p.blurb)}</p>
 
-    <div class="field-label q">🪑 One toon · 🧲 two ways</div>
-    <p class="helper" style="margin-top:-2px">Premium acrylic that stands proud on your desk and sticks right on your fridge — one Humtoon, both ways.</p>
+    <div class="field-label q">${p.id==="frame"?"🖼️ Acrylic photo frame":p.id==="humsip"?"🥤 Personalised sipper":p.id==="hamper"?"🎁 Curated hamper box":"🪑 One toon · 🧲 two ways"}</div>
+    <p class="helper" style="margin-top:-2px">${p.id==="frame"?"Custom toonified acrylic photo frame with your favourite quote, names and hearts — available in Mini and Large sizes.":p.id==="humsip"?"A personalised sipper bottle with your toonified character printed on it, custom name and a themed pattern all around.":p.id==="hamper"?"A complete gift box with a personalised HumSip bottle, a tumbler, premium chocolates, a toy and more — ready to gift.":"Premium acrylic that stands proud on your desk and sticks right on your fridge — one Humtoon, both ways."}</p>
 
     ${p.id==="family_squad"?`
     <div class="field-label q">How many people?</div>
@@ -895,18 +912,18 @@ function productHTML(p){
     </div>
     <p class="helper" id="pplHelp">Base covers 3 (max 7) · +₹100 each extra (+₹${(ps.people-3)*100})</p>`:""}
 
-    <div class="field-label q">The transformation</div>
+    ${(p.before && p.before !== p.after)?`<div class="field-label q">The transformation</div>
     ${sliderHTML(p.before, p.after)}
-    <p class="ba-cap">drag — that could be your photo ✨</p>
+    <p class="ba-cap">drag — that could be your photo ✨</p>`:""}
 
     <div class="trust-row">
-      <div class="trust-mini"><div class="ic">🎨</div><div class="tx q">Hand-drawn</div></div>
-      <div class="trust-mini"><div class="ic">💎</div><div class="tx q">Premium acrylic</div></div>
+      <div class="trust-mini"><div class="ic">${p.id==="humsip"?"🥤":p.id==="hamper"?"🎁":"🎨"}</div><div class="tx q">${p.id==="humsip"?"Personalised":p.id==="hamper"?"Curated box":"Hand-drawn"}</div></div>
+      <div class="trust-mini"><div class="ic">${p.id==="frame"?"🖼️":p.id==="humsip"?"✏️":"💎"}</div><div class="tx q">${p.id==="frame"?"Acrylic frame":p.id==="humsip"?"Custom name":"Premium acrylic"}</div></div>
       <div class="trust-mini"><div class="ic">🚚</div><div class="tx q">Pan-India</div></div>
     </div>
   </div>
   <div class="buybar">
-    <div class="pinfo"><div class="p q" id="buyPrice">${esc(displayPrice(p,ps))}</div><div class="f">🪑 Desk · 🧲 Fridge</div></div>
+    <div class="pinfo"><div class="p q" id="buyPrice">${esc(displayPrice(p,ps))}</div><div class="f">${p.id==="frame"?"🖼️ Acrylic frame":p.id==="humsip"?"🥤 Sipper bottle":p.id==="hamper"?"🎁 Gift hamper":"🪑 Desk · 🧲 Fridge"}</div></div>
     <a class="btn btn-pri" id="orderBtn" target="_blank" rel="noopener">${WA_SVG} Order on WhatsApp</a>
     <a class="ig" href="${IG}" target="_blank" rel="noopener" aria-label="Instagram">${IG_IMG}</a>
   </div>`;
